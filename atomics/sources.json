@@ -1,0 +1,653 @@
+{
+  "records": [
+    {
+      "id": "NIST-SSDF",
+      "title": "NIST SP 800-218 SSDF",
+      "url": "https://csrc.nist.gov/pubs/sp/800/218/final",
+      "source_type": "Security",
+      "stability": "stable",
+      "notes": "Secure Software Development Framework practices.",
+      "supports": [
+        "Supply Chain",
+        "CI Generator"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "government standard"
+    },
+    {
+      "id": "OWASP-ASVS",
+      "title": "OWASP Application Security Verification Standard",
+      "url": "https://owasp.org/www-project-application-security-verification-standard/",
+      "source_type": "Security",
+      "stability": "volatile",
+      "notes": "Basis for testing web application technical security controls and requirements.",
+      "supports": [
+        "Security",
+        "Supply Chain Review"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "standard/community"
+    },
+    {
+      "id": "OWASP-LLM",
+      "title": "OWASP Top 10 for LLM Applications",
+      "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+      "source_type": "Security",
+      "stability": "volatile",
+      "notes": "Prompt injection, excessive agency, insecure output handling.",
+      "supports": [
+        "LLM Security"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "standard/community"
+    },
+    {
+      "id": "RFC-2119",
+      "title": "RFC 2119",
+      "url": "https://datatracker.ietf.org/doc/html/rfc2119",
+      "source_type": "IETF RFC",
+      "stability": "stable",
+      "notes": "MUST/SHOULD/MAY requirement levels.",
+      "supports": [
+        "Spec Pack",
+        "Interface Contracts"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "standard"
+    },
+    {
+      "id": "RFC-8174",
+      "title": "RFC 8174 / BCP 14 uppercase clarification",
+      "url": "https://datatracker.ietf.org/doc/rfc8174/",
+      "source_type": "IETF RFC",
+      "stability": "stable",
+      "notes": "Only uppercase normative keywords carry defined BCP 14 meaning.",
+      "supports": [
+        "Spec Pack",
+        "ADR+RFC"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "standard"
+    },
+    {
+      "id": "W3C-I18N",
+      "title": "W3C Internationalization Techniques",
+      "url": "https://www.w3.org/International/techniques/authoring-html",
+      "source_type": "Web standard",
+      "stability": "stable",
+      "notes": "Language tags, directionality, encoding, locale-sensitive authoring.",
+      "supports": [
+        "i18n/l10n",
+        "RTL/BiDi"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "standard"
+    },
+    {
+      "id": "W3C-LOP",
+      "title": "W3C Rule of Least Power",
+      "url": "https://www.w3.org/2001/tag/doc/leastPower-2006-01-23.html",
+      "source_type": "Web architecture",
+      "stability": "stable",
+      "notes": "Use the least powerful language suitable for the task.",
+      "supports": [
+        "LoP",
+        "Compiler",
+        "Security"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "standard finding"
+    },
+    {
+      "id": "WAI-ARIA-APG",
+      "title": "WAI-ARIA Authoring Practices Guide",
+      "url": "https://www.w3.org/WAI/ARIA/apg/",
+      "source_type": "Web standard",
+      "stability": "volatile",
+      "notes": "Accessible patterns and examples for ARIA widgets.",
+      "supports": [
+        "Accessibility",
+        "ARIA Last"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "standard"
+    },
+    {
+      "id": "WAI-WCAG-OVERVIEW",
+      "title": "WAI WCAG Overview",
+      "url": "https://www.w3.org/WAI/standards-guidelines/wcag/",
+      "source_type": "Web standard",
+      "stability": "stable",
+      "notes": "Overview of WCAG principles, guidelines, success criteria, and conformance levels.",
+      "supports": [
+        "WCAG/POUR"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "official W3C/WAI"
+    },
+    {
+      "id": "WCAG-22",
+      "title": "WCAG 2.2",
+      "url": "https://www.w3.org/TR/WCAG22/",
+      "source_type": "Web standard",
+      "stability": "stable",
+      "notes": "Accessibility requirements and POUR organization.",
+      "supports": [
+        "Web Foundations",
+        "Accessibility Pack"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "standard"
+    },
+    {
+      "id": "WHATWG-HTML",
+      "title": "WHATWG HTML Living Standard",
+      "url": "https://html.spec.whatwg.org/multipage/",
+      "source_type": "Web standard",
+      "stability": "volatile",
+      "notes": "Living standard for HTML semantics and browser reality.",
+      "supports": [
+        "HTML First",
+        "Browser Baseline"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "standard"
+    },
+    {
+      "id": "NCSC-PROMPT-INJECTION",
+      "title": "NCSC: Prompt injection is not SQL injection",
+      "url": "https://www.ncsc.gov.uk/blog-post/prompt-injection-is-not-sql-injection",
+      "source_type": "Security",
+      "stability": "volatile",
+      "notes": "Prompt injection framing and why model-self-policing is insufficient.",
+      "supports": [
+        "Security"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "government guidance"
+    },
+    {
+      "id": "OWASP-AGENCY",
+      "title": "OWASP Excessive Agency",
+      "url": "https://genai.owasp.org/llmrisk/llm06-sensitive-information-disclosure/",
+      "source_type": "LLM security",
+      "stability": "volatile",
+      "notes": "Focused source for agency/tool-risk controls and authorization boundaries.",
+      "supports": [
+        "Excessive Agency"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "official OWASP"
+    },
+    {
+      "id": "OWASP-LLM01",
+      "title": "OWASP LLM01 Prompt Injection",
+      "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/",
+      "source_type": "LLM security",
+      "stability": "volatile",
+      "notes": "Focused OWASP source for prompt-injection risk and mitigations.",
+      "supports": [
+        "Prompt Injection"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "official OWASP"
+    },
+    {
+      "id": "ANTHROPIC-SKILL-BP",
+      "title": "Anthropic Skill Authoring Best Practices",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
+      "source_type": "Official AI docs",
+      "stability": "volatile",
+      "notes": "Concise skills, degrees of freedom, trigger/eval behavior.",
+      "supports": [
+        "Skills",
+        "Prompt Packs"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "primary/vendor"
+    },
+    {
+      "id": "ANTHROPIC-SKILLS",
+      "title": "Anthropic Claude Skills Overview",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "source_type": "Official AI docs",
+      "stability": "volatile",
+      "notes": "Skill packaging, metadata, instructions, resources, progressive disclosure.",
+      "supports": [
+        "Skills",
+        "Agent Foundations"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "primary/vendor"
+    },
+    {
+      "id": "CLAUDE-CODE",
+      "title": "Claude Code Best Practices",
+      "url": "https://code.claude.com/docs/en/best-practices",
+      "source_type": "Official AI docs",
+      "stability": "volatile",
+      "notes": "Explore-plan-code, verification, context management, permissions.",
+      "supports": [
+        "Repo Pack",
+        "Agent Control"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "primary/vendor"
+    },
+    {
+      "id": "GOOGLE-SRE-SLO",
+      "title": "Google SRE Workbook: Implementing SLOs",
+      "url": "https://sre.google/workbook/implementing-slos/",
+      "source_type": "Reliability",
+      "stability": "stable",
+      "notes": "SLO implementation and reliability budgeting.",
+      "supports": [
+        "SLI/SLO/Error Budget"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "primary/vendor"
+    },
+    {
+      "id": "HERMES-README",
+      "title": "Hermes Agent README",
+      "url": "https://github.com/NousResearch/hermes-agent",
+      "source_type": "Hermes docs",
+      "stability": "volatile",
+      "notes": "Self-improving agent, skill creation, multi-model gateways.",
+      "supports": [
+        "Skills",
+        "Delegation"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "project docs"
+    },
+    {
+      "id": "HERMES-SKILLS",
+      "title": "Hermes Skills System",
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/skills",
+      "source_type": "Hermes docs",
+      "stability": "volatile",
+      "notes": "On-demand local skill documents and skill directory.",
+      "supports": [
+        "Skills"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "project docs"
+    },
+    {
+      "id": "OPENAI-CODEX",
+      "title": "OpenAI Codex Prompting Guide",
+      "url": "https://developers.openai.com/cookbook/examples/gpt-5/codex_prompting_guide",
+      "source_type": "Official AI docs",
+      "stability": "volatile",
+      "notes": "Agentic coding, codebase exploration, verification, frontend guidance.",
+      "supports": [
+        "Default Stacks",
+        "Repo Pack"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "primary/vendor"
+    },
+    {
+      "id": "OPENAI-PROMPT",
+      "title": "OpenAI Prompt Guidance",
+      "url": "https://developers.openai.com/api/docs/guides/prompt-guidance",
+      "source_type": "Official AI docs",
+      "stability": "volatile",
+      "notes": "Tool use, persistence, verification, structured outputs.",
+      "supports": [
+        "Agent Control",
+        "Prompt Packs"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "primary/vendor"
+    },
+    {
+      "id": "TOYOTA-GENCHI",
+      "title": "Toyota UK: Genchi Genbutsu",
+      "url": "https://mag.toyota.co.uk/genchi-genbutsu/",
+      "source_type": "Lean / Toyota",
+      "stability": "stable",
+      "notes": "Go-and-see problem solving.",
+      "supports": [
+        "Genchi Genbutsu"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "primary/vendor"
+    },
+    {
+      "id": "TOYOTA-POKAYOKE",
+      "title": "Toyota UK: Poka-Yoke",
+      "url": "https://mag.toyota.co.uk/poka-yoke/",
+      "source_type": "Lean / Toyota",
+      "stability": "stable",
+      "notes": "Mistake-proofing controls.",
+      "supports": [
+        "Poka-yoke"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "primary/vendor"
+    },
+    {
+      "id": "TOYOTA-TPS",
+      "title": "Toyota Production System",
+      "url": "https://global.toyota/en/company/vision-and-philosophy/production-system/index.html",
+      "source_type": "Lean / Toyota",
+      "stability": "stable",
+      "notes": "Jidoka, just-in-time, waste reduction, quality at source.",
+      "supports": [
+        "Lean / Kaizen"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "primary/vendor"
+    },
+    {
+      "id": "ATLASSIAN-SSOT",
+      "title": "Atlassian: Building a Single Source of Truth",
+      "url": "https://www.atlassian.com/work-management/knowledge-sharing/documentation/single-source-of-truth",
+      "source_type": "Knowledge management",
+      "stability": "stable",
+      "notes": "Practical SSOT and source ownership guidance.",
+      "supports": [
+        "SSOT",
+        "Sources"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "vendor guide"
+    },
+    {
+      "id": "AZURE-PATTERNS",
+      "title": "Azure Architecture Patterns: Circuit Breaker / Bulkhead",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/",
+      "source_type": "Reliability",
+      "stability": "stable",
+      "notes": "Circuit breaker, bulkhead, retry, throttling patterns.",
+      "supports": [
+        "Reliability"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "vendor docs"
+    },
+    {
+      "id": "DDD-REF",
+      "title": "Domain-Driven Design Reference",
+      "url": "https://www.domainlanguage.com/ddd/reference/",
+      "source_type": "Architecture",
+      "stability": "stable",
+      "notes": "Bounded contexts and ubiquitous language.",
+      "supports": [
+        "DDD/BC"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "reference"
+    },
+    {
+      "id": "FOWLER-REFACTORING",
+      "title": "Martin Fowler Refactoring Catalog",
+      "url": "https://refactoring.com/catalog/",
+      "source_type": "Classic SE",
+      "stability": "stable",
+      "notes": "Small behavior-preserving transformations and catalog.",
+      "supports": [
+        "Legacy Refactor",
+        "Testing"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "author reference"
+    },
+    {
+      "id": "GRASP-LARMAN",
+      "title": "Craig Larman GRASP / Applying UML and Patterns references",
+      "url": "https://principles-wiki.net/collections%3Agrasp",
+      "source_type": "Architecture",
+      "stability": "stable",
+      "notes": "Information Expert, Creator, Controller, Low Coupling, High Cohesion.",
+      "supports": [
+        "GRASP",
+        "Responsibility Assignment"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "book/secondary refs"
+    },
+    {
+      "id": "IBM-ACID",
+      "title": "IBM: ACID properties of transactions",
+      "url": "https://www.ibm.com/docs/en/cics-ts/6.x?topic=processing-acid-properties-transactions",
+      "source_type": "State / data",
+      "stability": "stable",
+      "notes": "Atomicity, consistency, isolation, durability.",
+      "supports": [
+        "ACID"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "vendor docs"
+    },
+    {
+      "id": "LEAN-LEXICON",
+      "title": "Lean Enterprise Institute Lexicon",
+      "url": "https://www.lean.org/lexicon-terms/",
+      "source_type": "Lean / Toyota",
+      "stability": "stable",
+      "notes": "Kaizen, muda/mura/muri, hansei, nemawashi vocabulary.",
+      "supports": [
+        "Lean cards"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "institutional"
+    },
+    {
+      "id": "MS-SOLID",
+      "title": "Microsoft MSDN: Dangers of Violating SOLID Principles",
+      "url": "https://learn.microsoft.com/en-us/archive/msdn-magazine/2014/may/cutting-edge-dangers-of-violating-solid-principles-in-csharp",
+      "source_type": "Classic SE",
+      "stability": "stable",
+      "notes": "SOLID principles and consequences of violation.",
+      "supports": [
+        "SOLID"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "vendor/secondary"
+    },
+    {
+      "id": "PARNAS",
+      "title": "Parnas: On the Criteria To Be Used in Decomposing Systems into Modules",
+      "url": "https://wstomv.win.tue.nl/edu/2ip30/references/criteria_for_modularization.pdf",
+      "source_type": "Classic SE paper",
+      "stability": "stable",
+      "notes": "Information hiding and modular decomposition.",
+      "supports": [
+        "IH",
+        "Architecture"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "paper"
+    },
+    {
+      "id": "PBT-MT",
+      "title": "Property-Based Testing for Metamorphic Testing",
+      "url": "https://arxiv.org/abs/2207.04655",
+      "source_type": "Testing",
+      "stability": "stable",
+      "notes": "Using property-based tools to support metamorphic testing.",
+      "supports": [
+        "PBT",
+        "MT"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "paper arXiv:2207.04655"
+    },
+    {
+      "id": "PRAGPROG-DRY",
+      "title": "The Pragmatic Programmer: DRY excerpt",
+      "url": "https://media.pragprog.com/titles/tpp20/dry.pdf",
+      "source_type": "Classic SE",
+      "stability": "stable",
+      "notes": "Every piece of knowledge should have a single authoritative representation.",
+      "supports": [
+        "DRY"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "book excerpt"
+    },
+    {
+      "id": "SEI-QUALITY",
+      "title": "SEI Engineering-Centric Quality Techniques",
+      "url": "https://www.sei.cmu.edu/blog/building-quality-software-4-engineering-centric-techniques/",
+      "source_type": "Classic SE",
+      "stability": "stable",
+      "notes": "Abstraction, modularity, encapsulation, separation of concerns.",
+      "supports": [
+        "Core",
+        "Architecture"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "institutional"
+    },
+    {
+      "id": "12FA",
+      "title": "The Twelve-Factor App",
+      "url": "https://12factor.net/",
+      "source_type": "Reliability",
+      "stability": "stable",
+      "notes": "Portable, scalable app configuration and deployment principles.",
+      "supports": [
+        "12FA"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "methodology"
+    },
+    {
+      "id": "AGENT-EVAL-2503",
+      "title": "A Survey on Evaluation of LLM-based Agents",
+      "url": "https://arxiv.org/html/2503.16416v2",
+      "source_type": "Agent research",
+      "stability": "volatile",
+      "notes": "Evaluation of planning, tool use, self-reflection, memory, sequential decisions.",
+      "supports": [
+        "Eval Harness"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "arXiv survey arXiv:2503.16416"
+    },
+    {
+      "id": "AGENT-SKILLS-2602",
+      "title": "Agent Skills for Large Language Models",
+      "url": "https://arxiv.org/abs/2602.12430",
+      "source_type": "Agent research",
+      "stability": "volatile",
+      "notes": "Skill architecture, MCP, progressive disclosure, trust/lifecycle governance.",
+      "supports": [
+        "Skills",
+        "Security"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "arXiv survey arXiv:2602.12430"
+    },
+    {
+      "id": "AGENT-SKILLS-2605",
+      "title": "A Comprehensive Survey on Agent Skills",
+      "url": "https://arxiv.org/html/2605.07358v1",
+      "source_type": "Agent research",
+      "stability": "volatile",
+      "notes": "Taxonomy, lifecycle, retrieval/evolution of agent skills.",
+      "supports": [
+        "Agent Foundations"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "arXiv survey arXiv:2605.07358"
+    },
+    {
+      "id": "AGENTIC-TOOL-USE",
+      "title": "Agentic Tool Use in Large Language Models",
+      "url": "https://arxiv.org/html/2604.00835v1",
+      "source_type": "Agent research",
+      "stability": "volatile",
+      "notes": "Prompting, supervised tool learning, reward-driven policy learning paradigms.",
+      "supports": [
+        "Tool-use Taxonomy"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "arXiv survey arXiv:2604.00835"
+    },
+    {
+      "id": "PROMPTWARE-2503",
+      "title": "Promptware Engineering",
+      "url": "https://arxiv.org/abs/2503.02400",
+      "source_type": "Agent research",
+      "stability": "volatile",
+      "notes": "Treat prompts as first-class software artifacts across lifecycle.",
+      "supports": [
+        "Promptware Engineering"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "arXiv/ACM arXiv:2503.02400"
+    },
+    {
+      "id": "MDN-PE",
+      "title": "MDN Progressive Enhancement",
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement",
+      "source_type": "Web docs",
+      "stability": "stable",
+      "notes": "Core content/function first, enhancements later.",
+      "supports": [
+        "PE",
+        "Browser Baseline"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "reference"
+    },
+    {
+      "id": "MDN-SEMANTIC",
+      "title": "MDN Semantic HTML",
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Semantics",
+      "source_type": "Web docs",
+      "stability": "stable",
+      "notes": "Use elements according to meaning and native semantics.",
+      "supports": [
+        "HTML First",
+        "ARIA Last"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "reference"
+    },
+    {
+      "id": "AGENT-HARNESS",
+      "title": "Agent Harness for Large Language Model Agents",
+      "url": "https://github.com/Gloriaameng/Awesome-Agent-Harness",
+      "source_type": "Agent research",
+      "stability": "volatile",
+      "notes": "Harness tuple: context, tools, state, logs, validation, limits.",
+      "supports": [
+        "Agent Harness"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "research/project candidate source"
+    },
+    {
+      "id": "CANDIDATE-CUPID",
+      "title": "CUPID design properties",
+      "url": "https://cupid.dev/",
+      "source_type": "Design patterns",
+      "stability": "candidate",
+      "notes": "Composable, Unix philosophy, Predictable, Idiomatic, Domain-based design properties.",
+      "supports": [
+        "CUPID"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "candidate source candidate"
+    },
+    {
+      "id": "NIST-SSDF-12-IPD",
+      "title": "NIST SSDF v1.2 Initial Public Draft",
+      "url": "https://csrc.nist.gov/pubs/sp/800/218/r1/ipd",
+      "source_type": "Security / candidate",
+      "stability": "candidate",
+      "notes": "Candidate update source for secure software development guidance.",
+      "supports": [
+        "SSDF watch"
+      ],
+      "last_checked": "2026-05-14",
+      "trust": "NIST draft draft"
+    }
+  ]
+}

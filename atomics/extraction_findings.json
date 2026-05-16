@@ -1,0 +1,30 @@
+{
+  "normalizations": [
+    {
+      "id": "WEB-MOBILE-FIRST",
+      "problem": "Visible fields were shifted: directive held tag list, use was empty, blocks held intended use, and tags were split into characters from the intended blocks text.",
+      "decision": "Preserved visible intent by using current why as directive, current blocks as use, current malformed char tags joined as blocks, and parsed tag list from the pre text."
+    }
+  ],
+  "counts": {
+    "quick_rail": 4,
+    "stacks": 25,
+    "defense_controls": 10,
+    "directives": 152,
+    "prompt_packs": 20,
+    "sources": 48,
+    "categories": 12
+  },
+  "current_html_findings": [
+    {
+      "problem": "146 directive data-search attributes contain serialized Python-style list text for tags.",
+      "surface": "docs/index.html article[data-search]",
+      "status": "Regenerated search text will derive from canonical fields."
+    },
+    {
+      "problem": "WEB-MOBILE-FIRST visible fields are shifted/split.",
+      "surface": "Directive card and copy buttons",
+      "status": "Normalized in atomics/directives.json and documented for review."
+    }
+  ]
+}

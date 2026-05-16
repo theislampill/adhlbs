@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ADHLBS Atomics Bundle",
+  "type": "object",
+  "required": [
+    "directives",
+    "stacks",
+    "prompt_packs",
+    "sources",
+    "sections"
+  ],
+  "properties": {
+    "directives": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/directive"
+      }
+    },
+    "stacks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/stack"
+      }
+    },
+    "prompt_packs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/prompt_pack"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "sections": {
+      "type": "object"
+    }
+  },
+  "$defs": {
+    "directive": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "name",
+        "expansion",
+        "why",
+        "directive",
+        "use",
+        "blocks",
+        "tags",
+        "source_class",
+        "related",
+        "negative_example",
+        "source_refs"
+      ]
+    },
+    "stack": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "risk",
+        "tag",
+        "stack",
+        "use",
+        "avoid",
+        "stop"
+      ]
+    },
+    "prompt_pack": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "tag",
+        "risk",
+        "variants",
+        "source_refs"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "url",
+        "source_type",
+        "stability",
+        "notes",
+        "supports"
+      ]
+    }
+  }
+}

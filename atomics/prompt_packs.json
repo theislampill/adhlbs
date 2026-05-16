@@ -1,0 +1,480 @@
+{
+  "records": [
+    {
+      "id": "PACK-REPO-STRICT",
+      "html_id": "pack-repo-strict",
+      "title": "Repo Agent Pack",
+      "tag": "Code · Bugfix",
+      "risk": "Medium",
+      "source_refs": [
+        "OPENAI-CODEX",
+        "CLAUDE-CODE"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Operate under RTFM + TRACE + OWNER FIRST + SSOT + DRY + KISS + YAGNI + DIFF FIRST + SMOKE BEFORE CLAIM. Do not broaden scope. Acceptance: owner/path identified, patch is minimal, diff is reviewable, verification command/result reported. Verification: <COMMAND>.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: stop at diff unless explicitly authorized. Exploratory: inspect first, propose patch plan, then patch only agreed owner.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-SKILL-STRICT",
+      "html_id": "pack-skill-strict",
+      "title": "Skill Engineering Pack",
+      "tag": "Skills · Agent Build",
+      "risk": "Medium",
+      "source_refs": [
+        "ANTHROPIC-SKILLS",
+        "AGENT-SKILLS-2602"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Package reusable procedural knowledge as a skill: manifest, concise trigger description, lean core, references/scripts, permissions, typed outputs, trigger evals. Acceptance: should-trigger/should-not-trigger cases exist. Verification: run trigger/eval smoke.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: no skill mutation without failing case + patch + eval receipt. Exploratory: map lifecycle and permission tiers first.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-SEC-HIGH",
+      "html_id": "pack-sec-high",
+      "title": "Security-Sensitive Agent Pack",
+      "tag": "Security · High Risk",
+      "risk": "High",
+      "source_refs": [
+        "OWASP-LLM",
+        "NCSC-PROMPT-INJECTION"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Operate under DID + TRUST BOUNDARY + LEAST PRIVILEGE + FAIL CLOSED + APP-LAYER GATE + OUTPUT FILTER. Do not broaden scope. Acceptance: untrusted content cannot alter instructions or escalate tools. Verification: prompt-injection drill + output scan.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: deny network/secrets/writes unless allowlisted. Exploratory: threat-model before any implementation.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-RESEARCH",
+      "html_id": "pack-research",
+      "title": "Research / Audit Pack",
+      "tag": "Research · Fact-Check",
+      "risk": "Medium",
+      "source_refs": [
+        "RFC-2119",
+        "WHATWG-HTML"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Operate under SOURCE BOUNDARY + QUOTE-FIRST + CONTRADICTION CHECK + CITE OR RETRACT + INFERENCE LABELS. Acceptance: every factual claim has source, path, log, test, or inference label. Verification: source coverage check.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: retract unsupported claims. Exploratory: gather official sources before papers/blogs.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-HERMES",
+      "html_id": "pack-hermes",
+      "title": "Hermes Delegation Pack",
+      "tag": "Hermes · Multi-Agent",
+      "risk": "Medium",
+      "source_refs": [
+        "HERMES-README",
+        "AGENT-HARNESS"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Delegate bounded specialist work with workdir, allowed tools, max turns, timeout, output schema, and verification command. Acceptance: coordinator reviews evidence and records receipt. Verification: rerun/inspect delegate check.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: no delegate push/deploy. Exploratory: ask delegate for trace + risks, not final authority.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-WEB",
+      "html_id": "pack-web",
+      "title": "Web Foundations Pack",
+      "tag": "Web · UI",
+      "risk": "Medium",
+      "source_refs": [
+        "WCAG-22",
+        "MDN-PE",
+        "WHATWG-HTML"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Use HTML FIRST + WCAG/POUR + PE + RWD + LEAST POWER + OFFLINE SAFE. Acceptance: no-JS baseline, keyboard path, contrast/labels/focus checked, print works, no unintended network loads. Verification: browser smoke + static scan.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: no remote fonts/scripts/assets. Exploratory: prototype semantic structure first.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-ARCH",
+      "html_id": "pack-arch",
+      "title": "Classic Architecture Pack",
+      "tag": "Architecture · Design",
+      "risk": "Medium",
+      "source_refs": [
+        "PARNAS",
+        "GRASP-LARMAN"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Use SoC + IH + COHESION/COUPLING + SOLID + GRASP + ADR. Acceptance: owner, interface, decision record, and variation point are explicit. Verification: trace producer/consumer impact.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: no abstraction without concrete changed reason. Exploratory: map responsibilities before code.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-TEST",
+      "html_id": "pack-test",
+      "title": "Testing Pack",
+      "tag": "Testing · Verification",
+      "risk": "Medium",
+      "source_refs": [
+        "PBT-MT",
+        "FOWLER-REFACTORING"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Use UNIT + INTEGRATION + E2E + PBT + MT + MUTATION + SMOKE according to risk. Acceptance: invariant/counterexample/happy-path coverage exists. Verification: test command and result.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: no completion claim without smallest meaningful check. Exploratory: list missing test surfaces.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-LEGACY",
+      "html_id": "pack-legacy",
+      "title": "Legacy Refactor Pack",
+      "tag": "Legacy · Refactor",
+      "risk": "Medium",
+      "source_refs": [
+        "FOWLER-REFACTORING",
+        "PARNAS"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Use CHARACTERIZATION + GOLDEN MASTER + SEAMS + SMALL BEHAVIOR-PRESERVING TRANSFORMS. Acceptance: current behavior captured before change; diff is reversible. Verification: before/after regression smoke.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: no rewrite. Exploratory: inventory seams and risky coupling first.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-SPEC",
+      "html_id": "pack-spec",
+      "title": "Spec Authoring Pack",
+      "tag": "Spec · Protocol",
+      "risk": "Medium",
+      "source_refs": [
+        "RFC-2119",
+        "RFC-8174"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Use RFC 2119/8174 + examples + counterexamples + compatibility matrix + conformance tests. Acceptance: MUST/SHOULD/MAY are intentional and uppercase only when normative. Verification: schema/contract examples pass.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: no ambiguous requirement words. Exploratory: draft requirement levels before implementation.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-PROMPTWARE",
+      "html_id": "pack-promptware",
+      "title": "Promptware Engineering Pack",
+      "tag": "Promptware · Lifecycle",
+      "risk": "Medium",
+      "source_refs": [
+        "PROMPTWARE-2503"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Treat prompts as software: requirements → design → implementation → eval → debugging → evolution → deployment → monitoring. Acceptance: version, owner, evals, and rollback path exist. Verification: prompt regression suite.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: no direct production prompt edits without diff and eval. Exploratory: gather failure cases first.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-CI",
+      "html_id": "pack-ci",
+      "title": "CI Generator Pack",
+      "tag": "Generator · CI",
+      "risk": "Medium",
+      "source_refs": [
+        "NIST-SSDF",
+        "WHATWG-HTML"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Use JSON/YAML SSOT → schema validation → build → diff → link/static scan → generated freshness check. Acceptance: output generated from source data and checked in CI. Verification: build command + freshness diff.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: generated files are not hand-edited. Exploratory: define schema and outputs first.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-SKILL-TRUST",
+      "html_id": "pack-skill-trust",
+      "title": "Skill Trust Pack",
+      "tag": "Skills · Security",
+      "risk": "High",
+      "source_refs": [
+        "AGENT-SKILLS-2602",
+        "OWASP-LLM"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Assign skill trust tier before loading: official, repo-pinned, local, community, untrusted. Acceptance: permissions match tier; untrusted skills get read-only review. Verification: manifest/source/script scan.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: no community skill with secrets/tools. Exploratory: audit provenance first.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-HARNESS",
+      "html_id": "pack-harness",
+      "title": "Agent Harness Pack",
+      "tag": "Agent · Runtime",
+      "risk": "High",
+      "source_refs": [
+        "AGENT-HARNESS",
+        "AGENTIC-TOOL-USE"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Control the harness: context, tools, state, logs, validation, and limits. Acceptance: every tool has scope, budget, log, and validation. Verification: harness config review + dry-run.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: model cannot self-grant tools. Exploratory: map harness tuple before prompts.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-RAG",
+      "html_id": "pack-rag",
+      "title": "RAG Grounding Pack",
+      "tag": "Research · RAG",
+      "risk": "Medium",
+      "source_refs": [
+        "AGENT-EVAL-2503"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Retrieve → rank → quote → contradiction check → synthesize → cite. Acceptance: answerable claims are supported by retrieved snippets or marked unverified. Verification: source coverage matrix.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: no source-free factual claims. Exploratory: gather diverse primary sources first.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-A11Y",
+      "html_id": "pack-a11y",
+      "title": "Accessibility / WCAG Pack",
+      "tag": "Web · Accessibility",
+      "risk": "Medium",
+      "source_refs": [
+        "WCAG-22",
+        "WAI-ARIA-APG"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Apply WCAG/POUR: keyboard, contrast, labels, focus order, semantics, reduced motion, screen reader smoke. Acceptance: critical flows pass no-mouse and no-visual assumptions. Verification: manual keyboard + static checks.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: ARIA cannot patch broken HTML semantics. Exploratory: inspect native elements first.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-I18N",
+      "html_id": "pack-i18n",
+      "title": "i18n / RTL / BiDi Pack",
+      "tag": "Web · Internationalization",
+      "risk": "Medium",
+      "source_refs": [
+        "W3C-I18N"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Use UTF-8, lang tags, dir/bdi, locale-sensitive dates/numbers, fallback fonts, and RTL smoke. Acceptance: mixed-direction names/text render correctly. Verification: sample RTL/LTR fixture.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: no hard-coded English layout assumptions. Exploratory: collect locale examples first.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-SUPPLY",
+      "html_id": "pack-supply",
+      "title": "Supply Chain Review Pack",
+      "tag": "Security · Supply Chain",
+      "risk": "High",
+      "source_refs": [
+        "NIST-SSDF",
+        "OWASP-ASVS"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Review dependency/skill/plugin/package provenance: source, version, hash, permissions, scripts, update path. Acceptance: risky components are pinned or denied. Verification: inventory + lockfile/source check.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: no unpinned executable dependency in high-risk path. Exploratory: inventory before patch.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-EVAL",
+      "html_id": "pack-eval",
+      "title": "Eval Matrix Pack",
+      "tag": "Agent · Evaluation",
+      "risk": "Medium",
+      "source_refs": [
+        "AGENT-EVAL-2503"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Build eval matrix: positive, negative, ambiguous, regression, adversarial, tool-failure, long-context, and source-conflict cases. Acceptance: measured failures map to patches. Verification: eval run summary.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: optimize only against measured failures. Exploratory: build fixture list first.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "PACK-LEGACY-V2",
+      "html_id": "pack-legacy-v2",
+      "title": "Legacy Refactor Pack v2",
+      "tag": "Legacy · Characterization",
+      "risk": "Medium",
+      "source_refs": [
+        "FOWLER-REFACTORING"
+      ],
+      "variants": [
+        {
+          "label": "Normal",
+          "body": "Characterize behavior, create golden master, identify seams, patch smallest owner, rerun regression smoke, record diff. Acceptance: no behavior change unless explicitly intended. Verification: golden-master compare.",
+          "open": true
+        },
+        {
+          "label": "Strict / Exploratory variants",
+          "body": "Strict: no rewrite; diff-first always. Exploratory: risk map before touching files.",
+          "open": false
+        }
+      ],
+      "notes": ""
+    }
+  ]
+}
