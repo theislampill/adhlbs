@@ -59,7 +59,8 @@ def render_quick_rail(items: list[dict[str, object]]) -> str:
             f"<b>{text(item['title'])}</b>"
             f"<code>{text(item['code'])}</code>"
             f"<p>{text(item['description'])}</p>"
-            f'<button aria-label="Copy text" class="copy micro" data-copy="{e(copy)}" type="button">Copy</button>'
+            f'<button aria-label="Copy quick directive: {e(item["title"])}" '
+            f'class="copy micro" data-copy="{e(copy)}" type="button">Copy</button>'
             "</div>"
         )
     chunks.append("</div>")
@@ -98,7 +99,7 @@ def render_stack_section(data: dict[str, object]) -> str:
     for tag in sections.get("stack_tags", []):
         chunks.append(f'<option value="{e(tag["value"])}">{text(tag["label"])}</option>')
     chunks.append(
-        '</select><button class="secondary" id="sortRisk" type="button">Sort by risk</button>'
+        '</select><button class="secondary" id="sortRisk" type="button">Sort by risk high-first</button>'
         '<button class="secondary" id="sortStackId" type="button">Sort by ID</button>'
         '<button class="secondary" id="copyVisibleStacks" type="button">Copy visible stacks</button>'
         '<button class="secondary" id="collapseStackDetails" type="button">Collapse stack details</button></div>'
@@ -149,10 +150,10 @@ def render_defense_section(data: dict[str, object]) -> str:
         deterministic = "yes" if "Yes" in record.get("badge", "") else "warn"
         chunks.append(
             '<div class="defense-card">'
-            f'<h3>{text(record["id"])} · {text(record["name"])} · {text(record["posture"])}</h3>'
+            f'<h3>{text(" · ".join(part for part in [record["id"], record["name"], record["posture"]] if part))}</h3>'
             f'<span class="badge {deterministic}">{text(record["badge"])}</span>'
             f'<p>{text(record["map"])}</p>'
-            '<details class="defense-detail"><summary>Failure / control</summary>'
+            '<details class="defense-detail"><summary>Breaks if absent / control</summary>'
             f'<p><b>Breaks if absent:</b> {text(record["breaks_if_absent"])}</p>'
             f'<p><b>Control:</b> {text(record["control"])}</p>'
             "</details></div>"
@@ -182,6 +183,7 @@ def render_card(record: dict[str, object], data: dict[str, object]) -> str:
         record["source_class"],
         record["related"],
         record["negative_example"],
+        record.get("source_refs", []),
     )
     chunks = [
         f'<article class="card {e(cat)}" data-card-id="{e(record["id"])}" data-kind="{e(record["kind"])}" '
@@ -226,6 +228,14 @@ def render_card(record: dict[str, object], data: dict[str, object]) -> str:
         chunks.append("</p>")
     if record.get("negative_example"):
         chunks.append(f'<p class="related">Negative example: {text(record["negative_example"])}</p>')
+    if record.get("source_refs"):
+        chunks.append('<p class="related source-refs">Sources: ')
+        refs = [
+            f'<code data-source-ref="{e(ref)}">[{text(ref)}]</code>'
+            for ref in record.get("source_refs", [])
+        ]
+        chunks.append(" · ".join(refs))
+        chunks.append("</p>")
     chunks.append("</details></article>")
     return "".join(chunks)
 
@@ -250,7 +260,7 @@ def render_cards_section(data: dict[str, object]) -> str:
             f'<section class="card-group" data-group="{e(category["name"])}">'
             '<div class="group-header">'
             f'<div class="group-icon {e(category["class"])}">{text(category["icon"])}</div>'
-            f'<span class="group-name">{text(category["name"])}</span>'
+            f'<h3 class="group-name">{text(category["name"])}</h3>'
             f'<span class="group-desc">{text(category["description"])}</span>'
             f'<span class="group-count">{len(records)} directives</span>'
             '</div><div class="group-grid">'
@@ -269,8 +279,8 @@ def render_packs_section(data: dict[str, object]) -> str:
         '<div class="section-divider"></div><section class="section" id="packs">',
         f'<div class="section-head"><h2>{text(head["title"])}</h2><p>{text(head["description"])}</p></div>',
         '<div class="packs-actions">'
-        '<button aria-label="Copy all prompt packs" class="primary" id="copyAllPacks" type="button">Copy all packs</button>'
-        '<button class="secondary" id="copyVisiblePacks" type="button">Copy visible packs</button>'
+        '<button aria-label="Copy every prompt pack, ignoring current search" class="primary" id="copyAllPacks" type="button">Copy all packs</button>'
+        '<button aria-label="Copy prompt packs matching current search" class="secondary" id="copyVisiblePacks" type="button">Copy filtered packs</button>'
         '<button class="secondary" id="collapsePackDetails" type="button">Collapse pack details</button></div>',
         '<div class="packs-grid">',
     ]
@@ -309,11 +319,11 @@ def render_sources_section(data: dict[str, object]) -> str:
         f'<div class="section-head"><h2>{text(head["title"])}</h2><p>{text(head["description"])}</p></div>',
         '<div class="source-tools">'
         '<button class="secondary" id="copyVisibleSources" type="button">Copy visible source URLs</button>'
-        '<button class="secondary" id="copySourceKeys" type="button">Copy source keys</button></div>',
+        '<button class="secondary" id="copySourceKeys" type="button">Copy visible source keys</button></div>',
         f'<div class="source-map">{text(sections.get("source_map", ""))}</div>',
         '<div class="sources-wrap"><table class="sources" id="sourcesTable">'
         '<caption>Sources are shown as inert text so the file does not contact the network.</caption>'
-        '<thead><tr><th>Key / Source</th><th>Contributed</th><th>Coverage</th><th>Last checked</th><th>Trust / DOI</th><th>URL text</th></tr></thead><tbody>',
+        '<thead><tr><th>Key / Source</th><th>Contributed</th><th>Coverage</th><th>Last checked</th><th>Trust / source note</th><th>URL text</th></tr></thead><tbody>',
     ]
     for idx, record in enumerate(data["sources"], start=1):
         q = search_text(record)
@@ -360,7 +370,7 @@ def render_html(data: dict[str, object]) -> str:
         '<main class="wrap" id="main" tabindex="-1">\n',
         '<div class="toolbar">\n',
         '<input aria-label="Search directives, stacks, packs, and sources" autocomplete="off" id="search" '
-        'placeholder="Search directives: SOLID, GRASP, DRY, ACID, SSOT, WCAG, Poka-yoke..." type="search"/>\n',
+        'placeholder="Search directives, stacks, packs, sources..." type="search"/>\n',
         '<select aria-label="Filter directive card category" id="kind"><option value="">All categories</option>',
     ]
     for category in categories:
@@ -369,7 +379,7 @@ def render_html(data: dict[str, object]) -> str:
         [
             "</select>\n",
             '<button class="primary" id="printBtn" type="button">Print / PDF</button>\n',
-            '<button id="resetBtn" type="button">Reset</button>\n',
+            '<button id="resetBtn" type="button">Reset filters</button>\n',
             '<button class="secondary" id="toggleDensity" type="button">Compact view</button>'
             '<span aria-live="polite" class="result-summary" id="resultSummary">Ready</span></div>\n',
             "<nav>\n",
@@ -431,6 +441,9 @@ def validate_generated_html(html_text: str, data: dict[str, object]) -> list[str
             errors.append(f"directive {record['id']} missing from generated html")
         if e(directive_copy(record)) not in html_text or e(directive_terse_copy(record)) not in html_text:
             errors.append(f"directive {record['id']} derived copy missing")
+        for ref in record.get("source_refs", []):
+            if f'data-source-ref="{e(ref)}"' not in html_text:
+                errors.append(f"directive {record['id']} source ref {ref} missing from generated html")
     for record in data["stacks"]:
         if f'data-stack-id="{e(record["id"])}"' not in html_text:
             errors.append(f"stack {record['id']} missing from generated html")

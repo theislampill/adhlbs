@@ -532,8 +532,8 @@
       "name": "Compatibility Matrix",
       "expansion": "Producer/consumer agreement grid",
       "why": "Compatibility is not a feeling; it is a table of supported versions and surfaces.",
-      "directive": "Maintain a compatibility matrix for APIs, schemas, skill versions, model versions, generated artifacts, and consuming clients.",
-      "use": "Releases, schema migrations, skills.",
+      "directive": "Maintain a compatibility matrix before changing producers or consumers: list supported versions, schemas, clients, prompt/skill formats, and generated artifacts; verify old and new examples pass or mark the break intentionally.",
+      "use": "Releases, schema migrations, skills, generated artifacts, public APIs.",
       "blocks": "Silent mismatch between old consumers and new producers.",
       "tags": [
         "versioning",
@@ -544,12 +544,16 @@
       "recognition": "",
       "metadata": [],
       "related": [
-        "ARCH-OWNER-FIRST",
-        "ARCH-INTERFACE-CONTRACT",
-        "ARCH-ADR"
+        "ARCH-BACKWARD-COMPATIBILITY",
+        "ARCH-SEMVER",
+        "ARCH-DEPRECATION-POLICY",
+        "ARCH-INTERFACE-CONTRACT"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "updating the producer and discovering later that an old consumer parsed a field differently.",
+      "source_refs": [
+        "GOOGLE-AIP-180",
+        "SEMVER"
+      ]
     },
     {
       "id": "ARCH-ADR",
@@ -654,7 +658,170 @@
         "ARCH-ADR"
       ],
       "negative_example": "invoking the acronym while violating the owner or evidence rule.",
-      "source_refs": []
+      "source_refs": [
+        "RFC-2119",
+        "RFC-8174"
+      ]
+    },
+    {
+      "id": "ARCH-ATAM",
+      "html_id": "arch-atam",
+      "kind": "Architecture",
+      "name": "ATAM",
+      "expansion": "Architecture Tradeoff Analysis Method",
+      "why": "Architectures fail at quality-attribute tradeoffs long before syntax fails.",
+      "directive": "Use ATAM for architecture choices with real tradeoffs: name quality attributes, candidate approaches, risks, sensitivity points, tradeoffs, and rejected options before choosing. Verify the decision lists risk owner, affected quality attributes, and evidence for the selected option.",
+      "use": "Architecture decisions where security, modifiability, performance, availability, cost, or schedule compete.",
+      "blocks": "Choosing architecture by preference, fashion, or single-metric optimization without recorded tradeoffs.",
+      "tags": [
+        "architecture",
+        "tradeoffs",
+        "quality attributes"
+      ],
+      "aliases": [
+        "Architecture Tradeoff Analysis"
+      ],
+      "source_class": "CMU SEI",
+      "recognition": "LLM-recognisable",
+      "metadata": [],
+      "related": [
+        "ARCH-ADR",
+        "ARCH-C4-MODEL",
+        "ARCH-COMPATIBILITY-MATRIX",
+        "ARCH-OWNER-FIRST"
+      ],
+      "negative_example": "selecting a platform because it is popular while omitting quality attributes, rejected options, and risk owner.",
+      "source_refs": [
+        "SEI-ATAM"
+      ]
+    },
+    {
+      "id": "ARCH-C4-MODEL",
+      "html_id": "arch-c4-model",
+      "kind": "Architecture",
+      "name": "C4 Model",
+      "expansion": "Context, Container, Component, Code views",
+      "why": "Different audiences need different architectural zoom levels.",
+      "directive": "Use C4 when architecture discussion is too abstract: start with system context, then containers/components only as needed for the decision; stop before code-level detail unless the decision depends on it. Verify each box has a name, responsibility, boundary/owner, and relationship.",
+      "use": "Architecture explanation, onboarding, design review, agent-generated diagrams, boundary disputes.",
+      "blocks": "Jumping into code diagrams before actor, system, container, responsibility, and ownership boundaries are clear.",
+      "tags": [
+        "architecture",
+        "diagrams",
+        "communication"
+      ],
+      "aliases": [
+        "C4"
+      ],
+      "source_class": "Architecture model",
+      "recognition": "LLM-recognisable",
+      "metadata": [],
+      "related": [
+        "ARCH-ATAM",
+        "ARCH-INTERFACE-CONTRACT",
+        "ARCH-ADR",
+        "ARCH-OWNER-FIRST"
+      ],
+      "negative_example": "drawing class boxes before naming external actors, system boundary, containers, and relationships.",
+      "source_refs": [
+        "C4-MODEL"
+      ]
+    },
+    {
+      "id": "ARCH-SEMVER",
+      "html_id": "arch-semver",
+      "kind": "Architecture",
+      "name": "SemVer",
+      "expansion": "Semantic Versioning",
+      "why": "Consumers need release numbers that encode compatibility risk.",
+      "directive": "Use SemVer before release/version changes: classify the diff as breaking, additive-compatible, or patch-level; choose major/minor/patch accordingly and block version bumps that understate compatibility impact. Verify release notes and tests match the classification.",
+      "use": "Packages, APIs, schemas, prompt/skill releases, generated artifacts with consumers.",
+      "blocks": "Version bumps that hide breaking changes, overstate compatibility, or make consumers guess upgrade risk.",
+      "tags": [
+        "versioning",
+        "contracts",
+        "release"
+      ],
+      "aliases": [
+        "Semantic Versioning"
+      ],
+      "source_class": "Official spec",
+      "recognition": "LLM-recognisable",
+      "metadata": [],
+      "related": [
+        "ARCH-BACKWARD-COMPATIBILITY",
+        "ARCH-DEPRECATION-POLICY",
+        "ARCH-COMPATIBILITY-MATRIX"
+      ],
+      "negative_example": "shipping a required-field contract change as a patch release because local tests passed.",
+      "source_refs": [
+        "SEMVER"
+      ]
+    },
+    {
+      "id": "ARCH-BACKWARD-COMPATIBILITY",
+      "html_id": "arch-backward-compatibility",
+      "kind": "Architecture",
+      "name": "Backward Compatibility",
+      "expansion": "Old consumers keep working",
+      "why": "Compatibility has source, wire, and semantic dimensions; passing one does not prove the others.",
+      "directive": "Before changing a consumed surface, check source, wire, and semantic compatibility: identify old consumers, old/new examples, migration path, and deprecation window. Stop if compatibility tests or a compatibility matrix are missing for supported consumers.",
+      "use": "API evolution, schema migrations, CLI flags, agent skill releases, generated docs.",
+      "blocks": "Breaking old clients through renamed fields, changed defaults, altered semantics, or undocumented output shifts.",
+      "tags": [
+        "compatibility",
+        "API",
+        "release"
+      ],
+      "aliases": [
+        "Backcompat"
+      ],
+      "source_class": "API design",
+      "recognition": "LLM-recognisable",
+      "metadata": [],
+      "related": [
+        "ARCH-COMPATIBILITY-MATRIX",
+        "ARCH-DEPRECATION-POLICY",
+        "ARCH-SEMVER",
+        "ARCH-API-FIRST"
+      ],
+      "negative_example": "adding a required field to an existing request and calling it backward compatible without old-consumer tests.",
+      "source_refs": [
+        "GOOGLE-AIP-180",
+        "SEMVER"
+      ]
+    },
+    {
+      "id": "ARCH-DEPRECATION-POLICY",
+      "html_id": "arch-deprecation-policy",
+      "kind": "Architecture",
+      "name": "Deprecation Policy",
+      "expansion": "Safe removal path for supported behavior",
+      "why": "Removal is a compatibility change with users, timelines, and evidence.",
+      "directive": "Use a deprecation policy before removing or changing supported APIs, schemas, flags, prompt formats, or generated outputs: name replacement, notice, timeline, compatibility window, telemetry/usage signal, and final removal condition. Stop if consumers cannot migrate safely.",
+      "use": "API evolution, schema/output changes, skill/prompt versioning, generated artifacts, CLI flags.",
+      "blocks": "Surprise removals, silent breaking changes, and unsupported consumers discovering the break in production.",
+      "tags": [
+        "deprecation",
+        "compatibility",
+        "release"
+      ],
+      "aliases": [
+        "Deprecation"
+      ],
+      "source_class": "API design",
+      "recognition": "LLM-recognisable",
+      "metadata": [],
+      "related": [
+        "ARCH-BACKWARD-COMPATIBILITY",
+        "ARCH-SEMVER",
+        "ARCH-COMPATIBILITY-MATRIX"
+      ],
+      "negative_example": "deleting a field because no current test uses it while supported clients still may.",
+      "source_refs": [
+        "GOOGLE-AIP-180",
+        "SEMVER"
+      ]
     },
     {
       "id": "STATE-ACID",
@@ -794,9 +961,9 @@
       "name": "Idempotence",
       "expansion": "Safe to run again",
       "why": "Critical for scripts, migrations, generated files, deployments, retries, and cleanup.",
-      "directive": "Make it idempotent: rerunning must not duplicate, corrupt, or drift state.",
-      "use": "Scripts, migrations, generators.",
-      "blocks": "Rerun damage.",
+      "directive": "Make retried work idempotent: rerunning a script, migration, generator, cleanup, or API write must detect prior completion and avoid duplicate side effects. Verify with a second run or dry-run that state is unchanged except for intended receipts.",
+      "use": "Scripts, migrations, generators, deployments, retries, cleanup, tool writes.",
+      "blocks": "Rerun damage, duplicate records, repeated messages, corrupted generated files, and drift after retry.",
       "tags": [
         "ops",
         "state"
@@ -806,11 +973,47 @@
       "recognition": "",
       "metadata": [],
       "related": [
+        "STATE-IDEMPOTENCY-KEY",
         "STATE-INVARIANTS",
+        "REL-RETRY-JITTER",
         "REL-ROLLBACK"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "a retry creates a second payment, ticket, migration row, or generated section.",
+      "source_refs": [
+        "IETF-IDEMPOTENCY-KEY"
+      ]
+    },
+    {
+      "id": "STATE-IDEMPOTENCY-KEY",
+      "html_id": "state-idempotency-key",
+      "kind": "State",
+      "name": "Idempotency Key",
+      "expansion": "One operation identity for retryable writes",
+      "why": "Retries are necessary, but duplicate side effects are not.",
+      "directive": "Use an idempotency key before retrying non-idempotent writes or tool actions: generate one stable operation ID, persist the first result, return the same result for duplicate attempts, and reject conflicting reuse. Verify duplicate requests do not create duplicate side effects.",
+      "use": "HTTP/API writes, payment/order/ticket creation, queued jobs, tool calls, browser actions with retry.",
+      "blocks": "Retry storms creating duplicate records, messages, charges, external actions, or inconsistent receipts.",
+      "tags": [
+        "state",
+        "retry",
+        "write safety"
+      ],
+      "aliases": [
+        "Idempotency-Key"
+      ],
+      "source_class": "IETF draft",
+      "recognition": "LLM-recognisable",
+      "metadata": [],
+      "related": [
+        "STATE-IDEMPOTENCE",
+        "REL-RETRY-JITTER",
+        "REL-DLQ",
+        "SEC-APPROVAL-THRESHOLD"
+      ],
+      "negative_example": "using a timestamp or random retry body so every retry looks like a new operation.",
+      "source_refs": [
+        "IETF-IDEMPOTENCY-KEY"
+      ]
     },
     {
       "id": "STATE-INVARIANTS",
@@ -1740,9 +1943,9 @@
       "name": "Golden Master",
       "expansion": "Capture existing behavior before changing it",
       "why": "Useful when legacy behavior must be preserved before refactor.",
-      "directive": "Record representative current outputs, refactor under comparison, and approve intentional deltas explicitly.",
-      "use": "Legacy code and generated artifacts.",
-      "blocks": "Refactoring blind.",
+      "directive": "Capture current behavior before refactor: save representative outputs, rerun after the change, and approve every delta as intentional or failed. Stop if the baseline cannot be reproduced.",
+      "use": "Legacy code, generated artifacts, parser/compiler behavior, risky refactors.",
+      "blocks": "Refactoring blind and mistaking accidental behavior drift for improvement.",
       "tags": [
         "legacy",
         "verification"
@@ -1754,12 +1957,44 @@
         "verification"
       ],
       "related": [
-        "TEST-SMOKE-TEST",
+        "TEST-GOLDEN-EVAL-SET",
         "TEST-CONTRACT-TEST",
         "AGENT-SMOKE-BEFORE-CLAIM"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
+      "negative_example": "refactoring a generator without saving the before-output and then hand-waving a giant diff.",
       "source_refs": []
+    },
+    {
+      "id": "TEST-GOLDEN-EVAL-SET",
+      "html_id": "test-golden-eval-set",
+      "kind": "Testing / Verification",
+      "name": "Golden Eval Set",
+      "expansion": "Stable behavior fixtures for agents",
+      "why": "Agent and prompt regressions need repeatable examples, not memory of what worked once.",
+      "directive": "Maintain a golden eval set for prompt/skill/agent changes: include representative success, failure, adversarial, long-context, and source-conflict cases; rerun before claiming improvement. Stop if the changed behavior is not measured against the baseline.",
+      "use": "Prompt packs, skills, agent harnesses, tool policies, generated artifacts with behavior expectations.",
+      "blocks": "Vibe-tuned prompts, regressions hidden by a single demo, and improvements that cannot be reproduced.",
+      "tags": [
+        "evals",
+        "agent",
+        "regression"
+      ],
+      "aliases": [
+        "Golden test set",
+        "Eval fixtures"
+      ],
+      "source_class": "Agent research",
+      "recognition": "LLM-recognisable",
+      "metadata": [],
+      "related": [
+        "AGENT-EVAL-HARNESS",
+        "FOUND-EVALS-FIRST",
+        "TEST-GOLDEN-MASTER"
+      ],
+      "negative_example": "declaring a prompt better because one fresh example looked good.",
+      "source_refs": [
+        "AGENT-EVAL-2503"
+      ]
     },
     {
       "id": "TEST-CHARACTERIZATION-TEST",
@@ -2212,9 +2447,9 @@
       "name": "Eval Harness",
       "expansion": "Behavior needs tests",
       "why": "Prompts/skills are software artifacts; evaluate them like code.",
-      "directive": "Create eval cases before optimizing. Measure trigger accuracy, task success, regressions, and failure modes.",
-      "use": "Skills and agents.",
-      "blocks": "Prompt edits without measured behavior.",
+      "directive": "Create eval cases before optimizing prompts or skills: include positive, negative, ambiguous, regression, tool-failure, and source-conflict cases; measure trigger accuracy and task success. Stop if no baseline or failure target exists.",
+      "use": "Skills, agents, prompt packs, harness changes, model/tool policy changes.",
+      "blocks": "Prompt edits without measured behavior or regressions hidden by one happy-path demo.",
       "tags": [
         "evals",
         "promptware"
@@ -2224,12 +2459,47 @@
       "recognition": "",
       "metadata": [],
       "related": [
-        "AGENT-RTFM",
-        "AGENT-TRACE",
+        "TEST-GOLDEN-EVAL-SET",
+        "FOUND-EVALS-FIRST",
         "AGENT-SMOKE-BEFORE-CLAIM"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "rewriting a skill because it feels better without a before/after eval result.",
+      "source_refs": [
+        "AGENT-EVAL-2503"
+      ]
+    },
+    {
+      "id": "AGENT-AI-RMF",
+      "html_id": "agent-ai-rmf",
+      "kind": "Agent Control",
+      "name": "AI RMF",
+      "expansion": "AI Risk Management Framework",
+      "why": "Agentic AI changes can create sociotechnical risk even when the code diff is small.",
+      "directive": "Use AI RMF for high-impact agent changes: map likely harms and affected users, measure controls, assign governance owner, and manage residual risk before release. Stop if risk, control, owner, and review trigger are not recorded.",
+      "use": "Agent releases, eval gates, sensitive workflows, human-facing automation, material autonomy changes.",
+      "blocks": "Treating AI safety as vibes or compliance theater after implementation.",
+      "tags": [
+        "AI governance",
+        "risk",
+        "TEVV"
+      ],
+      "aliases": [
+        "NIST AI RMF"
+      ],
+      "source_class": "NIST",
+      "recognition": "LLM-recognisable",
+      "metadata": [],
+      "related": [
+        "AGENT-EVAL-HARNESS",
+        "SEC-APPROVAL-THRESHOLD",
+        "SEC-EXCESSIVE-AGENCY",
+        "SEC-TRUST-BOUNDARY"
+      ],
+      "negative_example": "launching an agent with production tools before harms, controls, owner, and review trigger are named.",
+      "source_refs": [
+        "NIST-AI-RMF",
+        "NIST-GENAI-PROFILE"
+      ]
     },
     {
       "id": "AGENT-TRIGGER-EVALS",
@@ -2439,7 +2709,10 @@
         "SEC-FAIL-CLOSED"
       ],
       "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "source_refs": [
+        "OWASP-LLM01",
+        "NCSC-PROMPT-INJECTION"
+      ]
     },
     {
       "id": "SEC-LEAST-PRIVILEGE",
@@ -2586,9 +2859,9 @@
       "name": "Capability Allowlist",
       "expansion": "Explicit tools only",
       "why": "Prevents unexpected actions and reduces confused-deputy risk.",
-      "directive": "Use explicit allowlists for tools, hosts, file roots, commands, and high-risk operations.",
-      "use": "Tool runners.",
-      "blocks": "Open-ended shell/browser authority.",
+      "directive": "Before enabling tools, define the allowlist: commands, hosts, file roots, write paths, network access, secrets, and approval-required actions. Verify denied actions fail closed and the model cannot add capabilities to itself.",
+      "use": "Tool runners, browser/file agents, skill/plugin execution, CI jobs.",
+      "blocks": "Open-ended shell/browser authority, confused-deputy escalation, and accidental tool expansion.",
       "tags": [
         "security",
         "capabilities"
@@ -2600,12 +2873,15 @@
         "security"
       ],
       "related": [
+        "SEC-EXCESSIVE-AGENCY",
         "SEC-TRUST-BOUNDARY",
         "SEC-LEAST-PRIVILEGE",
         "SEC-FAIL-CLOSED"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "granting shell and browser access broadly because the current task probably only needs one path.",
+      "source_refs": [
+        "OWASP-AGENCY"
+      ]
     },
     {
       "id": "SEC-APPROVAL-THRESHOLD",
@@ -2614,9 +2890,9 @@
       "name": "Approval Threshold",
       "expansion": "Human gate for high impact",
       "why": "Use for payments, deletion, credentials, deployment, legal, medical, or irreversible actions.",
-      "directive": "Require human confirmation when action risk exceeds the pre-set threshold.",
-      "use": "Agents with write authority.",
-      "blocks": "Silent high-impact actions.",
+      "directive": "Set approval thresholds before execution: require human confirmation for deletion, deploys, credentials, payments, legal/medical impact, external messages, or irreversible writes. Verify the stop point and approval evidence are explicit.",
+      "use": "Agents with write authority, browser actions, deploy/release flows, sensitive workflows.",
+      "blocks": "Silent high-impact actions and post-hoc claims that a risky action was implied.",
       "tags": [
         "HITL",
         "risk"
@@ -2628,12 +2904,16 @@
         "security"
       ],
       "related": [
+        "SEC-EXCESSIVE-AGENCY",
         "SEC-TRUST-BOUNDARY",
         "SEC-LEAST-PRIVILEGE",
         "SEC-FAIL-CLOSED"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "asking forgiveness after a deploy, deletion, or external message because the user wanted progress.",
+      "source_refs": [
+        "OWASP-AGENCY",
+        "NIST-AI-RMF"
+      ]
     },
     {
       "id": "SEC-STRIDE",
@@ -2745,7 +3025,10 @@
         "SEC-FAIL-CLOSED"
       ],
       "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "source_refs": [
+        "OWASP-LLM01",
+        "NCSC-PROMPT-INJECTION"
+      ]
     },
     {
       "id": "SEC-SECRET-EGRESS-FILTER",
@@ -2801,7 +3084,11 @@
         "SEC-FAIL-CLOSED"
       ],
       "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "source_refs": [
+        "NIST-SSDF",
+        "NTIA-SBOM",
+        "SLSA"
+      ]
     },
     {
       "id": "SEC-ZTA",
@@ -2885,6 +3172,134 @@
       ],
       "negative_example": "invoking the acronym while violating the owner or evidence rule.",
       "source_refs": []
+    },
+    {
+      "id": "SEC-EXCESSIVE-AGENCY",
+      "html_id": "sec-excessive-agency",
+      "kind": "Security",
+      "name": "Excessive Agency",
+      "expansion": "Too much function, permission, or autonomy",
+      "why": "Agent damage scales with the authority available after a confused or manipulated output.",
+      "directive": "Before granting agent tools, writes, browser actions, external calls, or deploy authority, constrain agency: allowed actions, denied actions, approval thresholds, rollback, logs, and stop conditions must be explicit. Verify the model cannot self-authorize beyond that boundary.",
+      "use": "Tool agents, plugins, skills, browser/file automation, workflow executors, high-impact operations.",
+      "blocks": "Agents taking broad, irreversible, or out-of-scope actions because the tool surface was available.",
+      "tags": [
+        "LLM security",
+        "agency",
+        "least privilege"
+      ],
+      "aliases": [
+        "LLM06"
+      ],
+      "source_class": "OWASP LLM",
+      "recognition": "LLM-recognisable",
+      "metadata": [],
+      "related": [
+        "SEC-CAPABILITY-ALLOWLIST",
+        "SEC-APPROVAL-THRESHOLD",
+        "SEC-LEAST-PRIVILEGE",
+        "SEC-TRUST-BOUNDARY"
+      ],
+      "negative_example": "letting the model decide whether it may use a destructive tool because the prompt says be careful.",
+      "source_refs": [
+        "OWASP-AGENCY",
+        "OWASP-LLM"
+      ]
+    },
+    {
+      "id": "SEC-SBOM",
+      "html_id": "sec-sbom",
+      "kind": "Security",
+      "name": "SBOM",
+      "expansion": "Software Bill of Materials",
+      "why": "You cannot assess component risk if you cannot name the components.",
+      "directive": "Require an SBOM before release, dependency review, or generated software handoff: list component identity, version, supplier, dependency relationship, and timestamp/provenance context. Stop if reviewers cannot map a vulnerable component to affected artifacts.",
+      "use": "Supply-chain review, releases, audits, vendor intake, generated artifacts.",
+      "blocks": "Vulnerability response blocked by unknown packages, transitive components, or opaque build inputs.",
+      "tags": [
+        "supply chain",
+        "inventory",
+        "security"
+      ],
+      "aliases": [
+        "Software Bill of Materials"
+      ],
+      "source_class": "Government guidance",
+      "recognition": "LLM-recognisable",
+      "metadata": [],
+      "related": [
+        "SEC-SUPPLY-CHAIN-GATE",
+        "SEC-SLSA",
+        "SEC-LEAST-PRIVILEGE"
+      ],
+      "negative_example": "approving a dependency change with only package names in a prose summary.",
+      "source_refs": [
+        "NTIA-SBOM",
+        "NIST-SSDF"
+      ]
+    },
+    {
+      "id": "SEC-SLSA",
+      "html_id": "sec-slsa",
+      "kind": "Security",
+      "name": "SLSA",
+      "expansion": "Supply-chain Levels for Software Artifacts",
+      "why": "Artifacts need verifiable provenance, not just trusted build vibes.",
+      "directive": "Use SLSA for high-trust releases: generate provenance, verify artifact source and build process, and fail closed when provenance is missing or mismatched. Verify the release can be traced from artifact to source revision and builder.",
+      "use": "CI/CD, package release, generated binaries, model/agent tooling distribution.",
+      "blocks": "Tampered build outputs, forged provenance, unreviewed source revisions, or untraceable release artifacts.",
+      "tags": [
+        "supply chain",
+        "provenance",
+        "CI"
+      ],
+      "aliases": [
+        "Supply-chain Levels"
+      ],
+      "source_class": "Official spec",
+      "recognition": "LLM-recognisable",
+      "metadata": [],
+      "related": [
+        "SEC-SUPPLY-CHAIN-GATE",
+        "SEC-SBOM",
+        "AGENT-DIFF-FIRST"
+      ],
+      "negative_example": "trusting a downloaded artifact because the repository looked familiar.",
+      "source_refs": [
+        "SLSA",
+        "NIST-SSDF"
+      ]
+    },
+    {
+      "id": "SEC-ASVS",
+      "html_id": "sec-asvs",
+      "kind": "Security",
+      "name": "ASVS",
+      "expansion": "Application Security Verification Standard",
+      "why": "Security review needs testable requirements, not generic hardening advice.",
+      "directive": "Use ASVS when web/app security requirements are in scope: choose the relevant level/control IDs before implementation and cite those IDs in tests or review notes. Stop security signoff if acceptance criteria are generic or untestable.",
+      "use": "Web apps, generated UI, auth flows, input/output handling, security acceptance criteria.",
+      "blocks": "Security signoff without a stated control level, testable requirement, or acceptance criterion.",
+      "tags": [
+        "security",
+        "verification",
+        "requirements"
+      ],
+      "aliases": [
+        "Application Security Verification Standard"
+      ],
+      "source_class": "OWASP",
+      "recognition": "LLM-recognisable",
+      "metadata": [],
+      "related": [
+        "SEC-CSP-CORS-CSRF",
+        "SEC-OUTPUT-FILTER",
+        "AGENT-DEFINE-DONE"
+      ],
+      "negative_example": "saying ?secure it? without naming the ASVS control, level, or expected evidence.",
+      "source_refs": [
+        "OWASP-ASVS"
+      ]
     },
     {
       "id": "REL-BACKPRESSURE",
@@ -3049,9 +3464,9 @@
       "name": "Observability",
       "expansion": "Logs + metrics + traces",
       "why": "A fix is fragile if future failures cannot be diagnosed.",
-      "directive": "Instrument the changed path with useful evidence, not noisy logs.",
-      "use": "Apps, agents, releases.",
-      "blocks": "No clue when it fails again.",
+      "directive": "Before claiming an operational fix, add enough evidence to diagnose the next failure: metric, structured log, trace/task ID, or receipt at the changed boundary. Verify the signal is queryable and not just noisy prose.",
+      "use": "Apps, agents, releases, CI, incident fixes, generated pipelines.",
+      "blocks": "No clue when it fails again or logs that cannot answer who/what/when/where.",
       "tags": [
         "OTel",
         "ops"
@@ -3061,11 +3476,15 @@
       "recognition": "",
       "metadata": [],
       "related": [
-        "REL-ROLLBACK",
-        "REL-RUNBOOK"
+        "REL-STRUCTURED-LOGS",
+        "REL-TRACE-CONTEXT",
+        "REL-RUNBOOK",
+        "REL-ROLLBACK"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "adding console noise that does not include operation, component, result, or correlation id.",
+      "source_refs": [
+        "OTEL-SIGNALS"
+      ]
     },
     {
       "id": "REL-OTEL",
@@ -3091,7 +3510,74 @@
         "REL-RUNBOOK"
       ],
       "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "source_refs": [
+        "OTEL-SIGNALS",
+        "OTEL-LOGS"
+      ]
+    },
+    {
+      "id": "REL-STRUCTURED-LOGS",
+      "html_id": "rel-structured-logs",
+      "kind": "Reliability",
+      "name": "Structured Logs",
+      "expansion": "Events with fields, not prose soup",
+      "why": "Free-text logs are hard to search, correlate, redact, and aggregate.",
+      "directive": "Use structured logs when work needs audit or diagnosis: emit stable fields for event, severity, component, operation, actor/request, trace context, result, and safe error class. Verify logs contain no secrets and can be filtered without reading prose.",
+      "use": "Agent runs, CI jobs, web services, audit trails, generated artifact pipelines.",
+      "blocks": "Debugging by eyeballing inconsistent strings or leaking sensitive data in logs.",
+      "tags": [
+        "observability",
+        "logs",
+        "audit"
+      ],
+      "aliases": [
+        "Structured logging"
+      ],
+      "source_class": "OpenTelemetry",
+      "recognition": "LLM-recognisable",
+      "metadata": [],
+      "related": [
+        "REL-OBSERVABILITY",
+        "REL-OTEL",
+        "REL-TRACE-CONTEXT"
+      ],
+      "negative_example": "logging ?it failed? without operation, target, error class, trace id, or safe context.",
+      "source_refs": [
+        "OTEL-LOGS"
+      ]
+    },
+    {
+      "id": "REL-TRACE-CONTEXT",
+      "html_id": "rel-trace-context",
+      "kind": "Reliability",
+      "name": "Trace Context",
+      "expansion": "Propagate request identity across boundaries",
+      "why": "Multi-step failures need a shared request/thread/run identity across services and tools.",
+      "directive": "Require trace context when work crosses services, jobs, tools, files, or queues: preserve one request/task identity through logs, errors, handoffs, and receipts. Stop debugging claims if the failure path cannot be followed end-to-end.",
+      "use": "Distributed systems, tool agents, queues, CI workflows, incident analysis.",
+      "blocks": "Debugging multi-step failures from disconnected logs, tool outputs, prompts, and job records.",
+      "tags": [
+        "observability",
+        "trace id",
+        "correlation"
+      ],
+      "aliases": [
+        "Trace ID",
+        "traceparent"
+      ],
+      "source_class": "W3C / OTel",
+      "recognition": "LLM-recognisable",
+      "metadata": [],
+      "related": [
+        "REL-OBSERVABILITY",
+        "REL-OTEL",
+        "REL-STRUCTURED-LOGS"
+      ],
+      "negative_example": "opening five logs and guessing which entries belong to the same user action.",
+      "source_refs": [
+        "W3C-TRACE-CONTEXT",
+        "OTEL-SIGNALS"
+      ]
     },
     {
       "id": "REL-SLI-SLO-ERROR-BUDGET",
@@ -3117,7 +3603,9 @@
         "REL-RUNBOOK"
       ],
       "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "source_refs": [
+        "GOOGLE-SRE-SLO"
+      ]
     },
     {
       "id": "REL-MTTR-MTBF",
@@ -3219,7 +3707,9 @@
         "REL-ROLLBACK"
       ],
       "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "source_refs": [
+        "GOOGLE-SRE-INCIDENT-RESPONSE"
+      ]
     },
     {
       "id": "REL-POSTMORTEM",
@@ -3245,7 +3735,9 @@
         "REL-RUNBOOK"
       ],
       "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "source_refs": [
+        "GOOGLE-SRE-POSTMORTEM"
+      ]
     },
     {
       "id": "REL-GRACEFUL-DEGRADATION",
@@ -3841,7 +4333,9 @@
         "FOUND-RAG-GROUNDING"
       ],
       "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "source_refs": [
+        "PROMPTWARE-2503"
+      ]
     },
     {
       "id": "FOUND-MCP-BOUNDARY",
@@ -3943,7 +4437,9 @@
         "FOUND-RAG-GROUNDING"
       ],
       "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "source_refs": [
+        "AGENT-EVAL-2503"
+      ]
     },
     {
       "id": "FOUND-SKILL-LIFECYCLE",

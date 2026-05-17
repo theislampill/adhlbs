@@ -248,6 +248,9 @@ def validate_atomics(
                 errors.append(f"prompt_packs:{rid}: variant {idx} missing label")
             if not norm(variant.get("body")):
                 errors.append(f"prompt_packs:{rid}: variant {idx} missing body")
+        labels = [norm(variant.get("label")) for variant in record.get("variants", [])]
+        if labels != ["Normal", "Strict", "Exploratory"]:
+            errors.append(f"prompt_packs:{rid}: expected Normal, Strict, Exploratory variants; got {labels!r}")
         if "copy_text" in record and norm(record["copy_text"]) != pack_copy(record):
             errors.append(f"prompt_packs:{rid}: copy_text override does not match derived copy")
 

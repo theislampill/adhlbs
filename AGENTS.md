@@ -183,11 +183,12 @@ Prompt packs live in:
 atomics/prompt_packs.json
 ```
 
-Preserve the baseline copy format unless intentionally changed:
+Preserve distinct Normal / Strict / Exploratory variants unless intentionally changed:
 
 ```text
 Normal:
-Variants:
+Strict:
+Exploratory:
 ```
 
 After editing packs, verify:

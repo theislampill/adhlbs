@@ -169,14 +169,14 @@
     {
       "id": "OWASP-AGENCY",
       "title": "OWASP Excessive Agency",
-      "url": "https://genai.owasp.org/llmrisk/llm06-sensitive-information-disclosure/",
+      "url": "https://genai.owasp.org/llmrisk/llm062025-excessive-agency/",
       "source_type": "LLM security",
       "stability": "volatile",
       "notes": "Focused source for agency/tool-risk controls and authorization boundaries.",
       "supports": [
         "Excessive Agency"
       ],
-      "last_checked": "2026-05-14",
+      "last_checked": "2026-05-16",
       "trust": "official OWASP"
     },
     {
@@ -648,6 +648,203 @@
       ],
       "last_checked": "2026-05-14",
       "trust": "NIST draft draft"
+    },
+    {
+      "id": "NIST-AI-RMF",
+      "title": "NIST AI Risk Management Framework 1.0",
+      "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10",
+      "source_type": "AI governance",
+      "stability": "stable",
+      "notes": "Voluntary framework for mapping, measuring, managing, and governing AI risks.",
+      "supports": [
+        "AI RMF",
+        "Agent Risk Governance"
+      ],
+      "last_checked": "2026-05-16",
+      "trust": "government standard"
+    },
+    {
+      "id": "NIST-GENAI-PROFILE",
+      "title": "NIST AI RMF Generative AI Profile",
+      "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+      "source_type": "AI governance",
+      "stability": "stable",
+      "notes": "Cross-sector profile for generative AI risks and controls aligned to AI RMF 1.0.",
+      "supports": [
+        "AI RMF",
+        "Generative AI Risk"
+      ],
+      "last_checked": "2026-05-16",
+      "trust": "government standard"
+    },
+    {
+      "id": "SEI-ATAM",
+      "title": "CMU SEI Architecture Tradeoff Analysis Method",
+      "url": "https://www.sei.cmu.edu/library/the-architecture-tradeoff-analysis-method-2/",
+      "source_type": "Architecture",
+      "stability": "stable",
+      "notes": "Structured method for evaluating architecture against quality attributes and tradeoffs.",
+      "supports": [
+        "ATAM",
+        "Architecture Tradeoff Analysis"
+      ],
+      "last_checked": "2026-05-16",
+      "trust": "CMU SEI white paper"
+    },
+    {
+      "id": "C4-MODEL",
+      "title": "C4 Model for Visualising Software Architecture",
+      "url": "https://c4model.com/",
+      "source_type": "Architecture",
+      "stability": "stable",
+      "notes": "Architecture communication model using context, container, component, and code views.",
+      "supports": [
+        "C4 Model",
+        "Architecture Communication"
+      ],
+      "last_checked": "2026-05-16",
+      "trust": "official project docs"
+    },
+    {
+      "id": "SEMVER",
+      "title": "Semantic Versioning 2.0.0",
+      "url": "https://semver.org/spec/v2.0.0.html",
+      "source_type": "Versioning",
+      "stability": "stable",
+      "notes": "Versioning rules for public APIs, compatibility, deprecation, and release semantics.",
+      "supports": [
+        "Semantic Versioning",
+        "Deprecation Policy"
+      ],
+      "last_checked": "2026-05-16",
+      "trust": "official specification"
+    },
+    {
+      "id": "GOOGLE-AIP-180",
+      "title": "Google AIP-180 Backwards Compatibility",
+      "url": "https://google.aip.dev/180",
+      "source_type": "API design",
+      "stability": "stable",
+      "notes": "API compatibility guidance covering source, wire, and semantic compatibility.",
+      "supports": [
+        "Backwards Compatibility",
+        "API Contracts"
+      ],
+      "last_checked": "2026-05-16",
+      "trust": "official API improvement proposal"
+    },
+    {
+      "id": "NTIA-SBOM",
+      "title": "NTIA Minimum Elements for a Software Bill of Materials",
+      "url": "https://www.ntia.gov/report/2021/minimum-elements-software-bill-materials-sbom",
+      "source_type": "Security",
+      "stability": "stable",
+      "notes": "Minimum baseline elements for software component transparency and SBOM exchange.",
+      "supports": [
+        "SBOM",
+        "Supply Chain"
+      ],
+      "last_checked": "2026-05-16",
+      "trust": "government guidance"
+    },
+    {
+      "id": "SLSA",
+      "title": "SLSA Specification v1.2",
+      "url": "https://slsa.dev/spec/v1.2/",
+      "source_type": "Supply chain security",
+      "stability": "stable",
+      "notes": "Specification for supply-chain provenance, build/source tracks, and security levels.",
+      "supports": [
+        "SLSA",
+        "Supply Chain Provenance"
+      ],
+      "last_checked": "2026-05-16",
+      "trust": "official specification"
+    },
+    {
+      "id": "OTEL-SIGNALS",
+      "title": "OpenTelemetry Signals",
+      "url": "https://opentelemetry.io/docs/concepts/signals/",
+      "source_type": "Observability",
+      "stability": "volatile",
+      "notes": "OpenTelemetry signal model for traces, metrics, logs, baggage, and profiles.",
+      "supports": [
+        "Observability",
+        "OTel"
+      ],
+      "last_checked": "2026-05-16",
+      "trust": "official project docs"
+    },
+    {
+      "id": "OTEL-LOGS",
+      "title": "OpenTelemetry Logs",
+      "url": "https://opentelemetry.io/docs/concepts/signals/logs/",
+      "source_type": "Observability",
+      "stability": "volatile",
+      "notes": "Log signal guidance, including structured logs and trace/span correlation.",
+      "supports": [
+        "Structured Logs",
+        "OTel"
+      ],
+      "last_checked": "2026-05-16",
+      "trust": "official project docs"
+    },
+    {
+      "id": "W3C-TRACE-CONTEXT",
+      "title": "W3C Trace Context",
+      "url": "https://www.w3.org/TR/trace-context/",
+      "source_type": "Web standard",
+      "stability": "stable",
+      "notes": "Trace context propagation and traceparent/tracestate interoperability.",
+      "supports": [
+        "Trace Context",
+        "Trace ID"
+      ],
+      "last_checked": "2026-05-16",
+      "trust": "W3C recommendation"
+    },
+    {
+      "id": "GOOGLE-SRE-POSTMORTEM",
+      "title": "Google SRE Book: Postmortem Culture",
+      "url": "https://sre.google/sre-book/postmortem-culture/",
+      "source_type": "Reliability",
+      "stability": "stable",
+      "notes": "Incident postmortem guidance for learning from failures and preventing recurrence.",
+      "supports": [
+        "Postmortem",
+        "Incident Learning"
+      ],
+      "last_checked": "2026-05-16",
+      "trust": "primary/vendor engineering canon"
+    },
+    {
+      "id": "GOOGLE-SRE-INCIDENT-RESPONSE",
+      "title": "Google SRE Workbook: Incident Response",
+      "url": "https://sre.google/workbook/incident-response/",
+      "source_type": "Reliability",
+      "stability": "stable",
+      "notes": "Incident response example including runbooks, escalation, validation, and postmortem handoff.",
+      "supports": [
+        "Runbook",
+        "Incident Response"
+      ],
+      "last_checked": "2026-05-16",
+      "trust": "primary/vendor engineering canon"
+    },
+    {
+      "id": "IETF-IDEMPOTENCY-KEY",
+      "title": "IETF HTTP Idempotency-Key Header Field Draft",
+      "url": "https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/",
+      "source_type": "IETF draft",
+      "stability": "candidate",
+      "notes": "Draft HTTP header for making retryable non-idempotent requests distinguish duplicate attempts from new operations.",
+      "supports": [
+        "Idempotency Key",
+        "Retries",
+        "Write Safety"
+      ],
+      "last_checked": "2026-05-16",
+      "trust": "IETF draft; candidate stability"
     }
   ]
 }

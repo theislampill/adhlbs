@@ -17,8 +17,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: stop at diff unless explicitly authorized. Exploratory: inspect first, propose patch plan, then patch only agreed owner.",
+          "label": "Strict",
+          "body": "stop at diff unless explicitly authorized.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "inspect first, propose patch plan, then patch only agreed owner.",
           "open": false
         }
       ],
@@ -41,8 +46,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: no skill mutation without failing case + patch + eval receipt. Exploratory: map lifecycle and permission tiers first.",
+          "label": "Strict",
+          "body": "no skill mutation without failing case + patch + eval receipt.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "map lifecycle and permission tiers first.",
           "open": false
         }
       ],
@@ -56,7 +66,10 @@
       "risk": "High",
       "source_refs": [
         "OWASP-LLM",
-        "NCSC-PROMPT-INJECTION"
+        "NCSC-PROMPT-INJECTION",
+        "OWASP-LLM01",
+        "OWASP-AGENCY",
+        "NIST-AI-RMF"
       ],
       "variants": [
         {
@@ -65,8 +78,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: deny network/secrets/writes unless allowlisted. Exploratory: threat-model before any implementation.",
+          "label": "Strict",
+          "body": "deny network/secrets/writes unless allowlisted.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "threat-model before any implementation.",
           "open": false
         }
       ],
@@ -89,8 +107,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: retract unsupported claims. Exploratory: gather official sources before papers/blogs.",
+          "label": "Strict",
+          "body": "retract unsupported claims.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "gather official sources before papers/blogs.",
           "open": false
         }
       ],
@@ -113,8 +136,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: no delegate push/deploy. Exploratory: ask delegate for trace + risks, not final authority.",
+          "label": "Strict",
+          "body": "no delegate push/deploy.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "ask delegate for trace + risks, not final authority.",
           "open": false
         }
       ],
@@ -138,8 +166,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: no remote fonts/scripts/assets. Exploratory: prototype semantic structure first.",
+          "label": "Strict",
+          "body": "no remote fonts/scripts/assets.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "prototype semantic structure first.",
           "open": false
         }
       ],
@@ -153,7 +186,9 @@
       "risk": "Medium",
       "source_refs": [
         "PARNAS",
-        "GRASP-LARMAN"
+        "GRASP-LARMAN",
+        "SEI-ATAM",
+        "C4-MODEL"
       ],
       "variants": [
         {
@@ -162,8 +197,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: no abstraction without concrete changed reason. Exploratory: map responsibilities before code.",
+          "label": "Strict",
+          "body": "no abstraction without concrete changed reason.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "map responsibilities before code.",
           "open": false
         }
       ],
@@ -186,8 +226,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: no completion claim without smallest meaningful check. Exploratory: list missing test surfaces.",
+          "label": "Strict",
+          "body": "no completion claim without smallest meaningful check.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "list missing test surfaces.",
           "open": false
         }
       ],
@@ -210,8 +255,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: no rewrite. Exploratory: inventory seams and risky coupling first.",
+          "label": "Strict",
+          "body": "no rewrite.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "inventory seams and risky coupling first.",
           "open": false
         }
       ],
@@ -225,7 +275,10 @@
       "risk": "Medium",
       "source_refs": [
         "RFC-2119",
-        "RFC-8174"
+        "RFC-8174",
+        "GOOGLE-AIP-180",
+        "SEMVER",
+        "IETF-IDEMPOTENCY-KEY"
       ],
       "variants": [
         {
@@ -234,8 +287,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: no ambiguous requirement words. Exploratory: draft requirement levels before implementation.",
+          "label": "Strict",
+          "body": "no ambiguous requirement words.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "draft requirement levels before implementation.",
           "open": false
         }
       ],
@@ -257,8 +315,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: no direct production prompt edits without diff and eval. Exploratory: gather failure cases first.",
+          "label": "Strict",
+          "body": "no direct production prompt edits without diff and eval.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "gather failure cases first.",
           "open": false
         }
       ],
@@ -272,7 +335,10 @@
       "risk": "Medium",
       "source_refs": [
         "NIST-SSDF",
-        "WHATWG-HTML"
+        "WHATWG-HTML",
+        "SLSA",
+        "NTIA-SBOM",
+        "IETF-IDEMPOTENCY-KEY"
       ],
       "variants": [
         {
@@ -281,8 +347,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: generated files are not hand-edited. Exploratory: define schema and outputs first.",
+          "label": "Strict",
+          "body": "generated files are not hand-edited.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "define schema and outputs first.",
           "open": false
         }
       ],
@@ -305,8 +376,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: no community skill with secrets/tools. Exploratory: audit provenance first.",
+          "label": "Strict",
+          "body": "no community skill with secrets/tools.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "audit provenance first.",
           "open": false
         }
       ],
@@ -329,8 +405,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: model cannot self-grant tools. Exploratory: map harness tuple before prompts.",
+          "label": "Strict",
+          "body": "model cannot self-grant tools.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "map harness tuple before prompts.",
           "open": false
         }
       ],
@@ -352,8 +433,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: no source-free factual claims. Exploratory: gather diverse primary sources first.",
+          "label": "Strict",
+          "body": "no source-free factual claims.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "gather diverse primary sources first.",
           "open": false
         }
       ],
@@ -376,8 +462,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: ARIA cannot patch broken HTML semantics. Exploratory: inspect native elements first.",
+          "label": "Strict",
+          "body": "ARIA cannot patch broken HTML semantics.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "inspect native elements first.",
           "open": false
         }
       ],
@@ -399,8 +490,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: no hard-coded English layout assumptions. Exploratory: collect locale examples first.",
+          "label": "Strict",
+          "body": "no hard-coded English layout assumptions.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "collect locale examples first.",
           "open": false
         }
       ],
@@ -414,7 +510,9 @@
       "risk": "High",
       "source_refs": [
         "NIST-SSDF",
-        "OWASP-ASVS"
+        "OWASP-ASVS",
+        "NTIA-SBOM",
+        "SLSA"
       ],
       "variants": [
         {
@@ -423,8 +521,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: no unpinned executable dependency in high-risk path. Exploratory: inventory before patch.",
+          "label": "Strict",
+          "body": "no unpinned executable dependency in high-risk path.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "inventory before patch.",
           "open": false
         }
       ],
@@ -437,7 +540,8 @@
       "tag": "Agent · Evaluation",
       "risk": "Medium",
       "source_refs": [
-        "AGENT-EVAL-2503"
+        "AGENT-EVAL-2503",
+        "NIST-AI-RMF"
       ],
       "variants": [
         {
@@ -446,8 +550,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: optimize only against measured failures. Exploratory: build fixture list first.",
+          "label": "Strict",
+          "body": "optimize only against measured failures.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "build fixture list first.",
           "open": false
         }
       ],
@@ -469,8 +578,13 @@
           "open": true
         },
         {
-          "label": "Strict / Exploratory variants",
-          "body": "Strict: no rewrite; diff-first always. Exploratory: risk map before touching files.",
+          "label": "Strict",
+          "body": "no rewrite; diff-first always.",
+          "open": false
+        },
+        {
+          "label": "Exploratory",
+          "body": "risk map before touching files.",
           "open": false
         }
       ],
