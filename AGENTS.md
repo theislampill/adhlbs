@@ -53,6 +53,8 @@ atomics/ui_copy.json
 atomics/adhlbs.schema.json
 ```
 
+`atomics/extraction_findings.json` is intake-only historical normalization evidence from the first extraction pass. It is explicitly whitelisted by `tools/check_adhlbs_atomics.py`, is not a render dependency, and new `atomics/*.json` sidecars must be documented or the checker fails.
+
 Generated output lives in:
 
 ```text
@@ -66,6 +68,14 @@ tools/build_docs_index.py
 tools/check_adhlbs_atomics.py
 tools/check_docs_index_freshness.py
 tools/check_docs_index_offline.py
+tools/check_docs_index_browser_static.py
+tools/check_docs_index_browser_live.py
+tools/check_docs_index_accessibility_static.py
+tools/check_source_freshness.py
+tools/check_behavior_smokes.py
+tools/check_directive_quality.py
+tools/check_publication_gate.py
+tools/check_audit_evidence_links.py
 ```
 
 ---
@@ -250,6 +260,14 @@ python tools/check_adhlbs_atomics.py
 python tools/build_docs_index.py
 python tools/check_docs_index_freshness.py
 python tools/check_docs_index_offline.py
+python tools/check_docs_index_browser_static.py
+python tools/check_docs_index_browser_live.py
+python tools/check_docs_index_accessibility_static.py
+python tools/check_source_freshness.py
+python tools/check_behavior_smokes.py
+python tools/check_directive_quality.py
+python tools/check_publication_gate.py
+python tools/check_audit_evidence_links.py
 python -m py_compile tools/*.py
 git diff --check
 git status --short
@@ -278,6 +296,7 @@ compact mode
 result summary
 nav counts
 quick rail
+common tasks launcher
 default stack table
 stack workstream filter
 sort by risk
@@ -293,6 +312,7 @@ pack copy controls
 pack collapse controls
 sources table
 inert source URLs
+build manifest
 offline CSP
 zero active remote assets
 ```
@@ -308,10 +328,11 @@ If possible, run a temporary local server and test the generated page through lo
 Expected baseline counts:
 
 ```text
-152 directive cards
+166 directive cards
 25 stacks
 20 prompt packs
-48 sources
+62 sources
+5 common tasks
 ```
 
 Also verify:

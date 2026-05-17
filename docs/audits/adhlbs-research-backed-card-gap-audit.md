@@ -2,7 +2,7 @@
 
 Date: 2026-05-16
 
-Repo: `C:\adhlbs`
+Repo: `repository root`
 
 Branch / head at audit start: `main` / `e2302c6 Generate ADHLBS docs from atomics`
 

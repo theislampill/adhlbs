@@ -1,7 +1,7 @@
 # ADHLBS Layout, Interaction, Content, and Card-Taxonomy Audit
 
 Date: 2026-05-16
-Repo: `C:\adhlbs`
+Repo: `repository root`
 Branch: `main`
 Current baseline: atomics-driven generator workflow already present.
 
@@ -238,9 +238,9 @@ Full local checks after patching:
 | Command | Result |
 |---|---|
 | `python tools/check_adhlbs_atomics.py` | `ATOMICS_OK directives=152 stacks=25 prompt_packs=20 sources=48` |
-| `python tools/build_docs_index.py` | `BUILD_OK directives=152 stacks=25 prompt_packs=20 sources=48 output=C:\adhlbs\docs\index.html` |
+| `python tools/build_docs_index.py` | `BUILD_OK directives=152 stacks=25 prompt_packs=20 sources=48 output=docs/index.html` |
 | `python tools/check_docs_index_freshness.py` | `FRESHNESS_OK docs/index.html matches atomics build` |
-| `python tools/check_docs_index_offline.py` | `OFFLINE_CHECK_OK C:\adhlbs\docs\index.html` |
+| `python tools/check_docs_index_offline.py` | `OFFLINE_CHECK_OK docs/index.html` |
 | `Get-ChildItem tools -Filter *.py | ForEach-Object { python -m py_compile $_.FullName }` | Passed with no output |
 | `git diff --check` | Passed; only autocrlf warnings were printed |
 

@@ -22,6 +22,22 @@ jobs:
         run: python tools/check_docs_index_freshness.py
       - name: Check offline safety
         run: python tools/check_docs_index_offline.py
+      - name: Check static browser parity
+        run: python tools/check_docs_index_browser_static.py
+      - name: Check live local browser parity
+        run: python tools/check_docs_index_browser_live.py
+      - name: Check static accessibility smoke
+        run: python tools/check_docs_index_accessibility_static.py
+      - name: Check source freshness
+        run: python tools/check_source_freshness.py
+      - name: Check behavior smoke fixtures
+        run: python tools/check_behavior_smokes.py
+      - name: Check directive quality audit
+        run: python tools/check_directive_quality.py
+      - name: Check publication gate record
+        run: python tools/check_publication_gate.py
+      - name: Check audit evidence links
+        run: python tools/check_audit_evidence_links.py
       - name: Compile Python tools
         run: python -m py_compile tools/*.py
       - name: Check diff whitespace

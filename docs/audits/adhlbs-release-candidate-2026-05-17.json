@@ -1,0 +1,430 @@
+{
+  "audit_id": "ADHLBS-RELEASE-CANDIDATE-2026-05-17",
+  "date": "2026-05-17",
+  "verdict": "LOCAL RELEASE CANDIDATE: checks pass locally; public release remains blocked on owner license decision and authorized push/deploy/live verification.",
+  "docs_index_fresh": true,
+  "ci_includes_relevant_checks": true,
+  "commit_push_tag_deploy_release_performed": false,
+  "live_pages_checked": false,
+  "model_runs_executed": false,
+  "status_table": [
+    {
+      "finding": "Generated artifact truth",
+      "status": "DONE locally",
+      "evidence": [
+        "docs/index.html",
+        "tools/build_docs_index.py",
+        "tools/check_docs_index_freshness.py"
+      ],
+      "remaining_gap": "Public commit/Pages provenance remains gated separately.",
+      "next_action": "After authorized push, compare live Pages manifest to repo artifact."
+    },
+    {
+      "finding": "Schema / atomics / sidecar policy",
+      "status": "DONE locally",
+      "evidence": [
+        "atomics/adhlbs.schema.json",
+        "tools/check_adhlbs_atomics.py",
+        "atomics/extraction_findings.json"
+      ],
+      "remaining_gap": "No external jsonschema runtime is used; stdlib checker owns repo-critical enforcement.",
+      "next_action": "Keep checker in CI."
+    },
+    {
+      "finding": "Prompt guidance is not enforcement",
+      "status": "DONE locally",
+      "evidence": [
+        "atomics/sections.json",
+        "docs/index.html"
+      ],
+      "remaining_gap": "Actual enforcement still depends on external app/harness permissions, validation, and approvals.",
+      "next_action": "Do not describe prompt text as a security boundary."
+    },
+    {
+      "finding": "Behavior evidence",
+      "status": "PARTIAL / FIXTURE-ONLY",
+      "evidence": [
+        "tests/behavior/adhlbs_behavior_smokes.json",
+        "tools/check_behavior_smokes.py"
+      ],
+      "remaining_gap": "No controlled model runs and no measured behavior improvement claim.",
+      "next_action": "Run controlled model evals before A/B improvement claims."
+    },
+    {
+      "finding": "Browser/UI parity",
+      "status": "PARTIAL / LOCAL-ONLY",
+      "evidence": [
+        "tools/check_docs_index_browser_static.py",
+        "tools/check_docs_index_browser_live.py"
+      ],
+      "remaining_gap": "No deployed Pages browser proof.",
+      "next_action": "Run smoke against live Pages after authorized deployment."
+    },
+    {
+      "finding": "Accessibility",
+      "status": "PARTIAL / STATIC+LOCAL",
+      "evidence": [
+        "tools/check_docs_index_accessibility_static.py",
+        "tools/check_docs_index_browser_live.py"
+      ],
+      "remaining_gap": "Screen reader, contrast, and full manual keyboard review not run.",
+      "next_action": "Run manual accessibility pass before claiming full accessibility closure."
+    },
+    {
+      "finding": "Common-task launcher",
+      "status": "DONE locally",
+      "evidence": [
+        "atomics/sections.json",
+        "docs/index.html"
+      ],
+      "remaining_gap": "No user study; copy-safety is structural.",
+      "next_action": "None required for release-candidate proof hygiene."
+    },
+    {
+      "finding": "Agent-specific repo pack variants",
+      "status": "DONE scoped to PACK-REPO-STRICT",
+      "evidence": [
+        "atomics/prompt_packs.json",
+        "tools/check_adhlbs_atomics.py",
+        "docs/index.html"
+      ],
+      "remaining_gap": "This does not claim every prompt pack has Codex/Claude Code/Hermes variants.",
+      "next_action": "Add platform variants to other packs only when concrete task evidence needs them."
+    },
+    {
+      "finding": "Prompt-pack variant quality",
+      "status": "DONE locally",
+      "evidence": [
+        "atomics/prompt_packs.json",
+        "tools/check_adhlbs_atomics.py"
+      ],
+      "remaining_gap": "Quality is structural text validation, not live prompt performance.",
+      "next_action": "Use behavior evals before performance claims."
+    },
+    {
+      "finding": "Stack quality gates",
+      "status": "DONE locally",
+      "evidence": [
+        "atomics/stacks.json",
+        "tools/check_adhlbs_atomics.py"
+      ],
+      "remaining_gap": "Checker enforces visible use/avoid/stop and gate/evidence language; it does not prove runtime enforcement.",
+      "next_action": "Add task-specific stack checks when new high-risk stacks are introduced."
+    },
+    {
+      "finding": "Directive quality remediation",
+      "status": "PARTIAL remediation / DONE inventory",
+      "evidence": [
+        "docs/audits/adhlbs-directive-quality-audit-2026-05-17.json",
+        "tools/check_directive_quality.py"
+      ],
+      "remaining_gap": "136 backlog IDs remain.",
+      "next_action": "Treat remaining_backlog_ids as post-release remediation unless owner wants another cleanup pass."
+    },
+    {
+      "finding": "License",
+      "status": "OWNER DECISION REQUIRED",
+      "evidence": [
+        "README.md"
+      ],
+      "remaining_gap": "No LICENSE/COPYING file exists and owner has not selected license terms.",
+      "next_action": "Owner chooses a license or confirms all-rights-reserved stance."
+    },
+    {
+      "finding": "Public provenance / release",
+      "status": "PARTIAL / NOT RUN publicly",
+      "evidence": [
+        "docs/audits/adhlbs-publication-gate-2026-05-17.json",
+        "tools/check_publication_gate.py"
+      ],
+      "remaining_gap": "No commit, push, post-push CI run, tag, deploy, release, live URL check, or live manifest comparison.",
+      "next_action": "Run owner-authorized push/deploy verification sequence."
+    },
+    {
+      "finding": "CI coverage",
+      "status": "DONE for non-public local/CI checks",
+      "evidence": [
+        ".github/workflows/verify.yml"
+      ],
+      "remaining_gap": "Post-push Actions pass not run; live Pages proof not in CI.",
+      "next_action": "Inspect Actions after push and run live Pages checklist."
+    },
+    {
+      "finding": "Audit evidence path hygiene",
+      "status": "DONE locally",
+      "evidence": [
+        "tools/check_audit_evidence_links.py",
+        "docs/audits/*.md",
+        "docs/audits/*.json"
+      ],
+      "remaining_gap": "None for local absolute path pattern currently checked.",
+      "next_action": "Keep checker in CI."
+    }
+  ],
+  "verification_commands": [
+    {
+      "command": "python tools/check_adhlbs_atomics.py",
+      "result": "ATOMICS_OK directives=166 stacks=25 prompt_packs=20 sources=62"
+    },
+    {
+      "command": "python tools/build_docs_index.py",
+      "result": "BUILD_OK directives=166 stacks=25 prompt_packs=20 sources=62 output=docs/index.html"
+    },
+    {
+      "command": "python tools/check_docs_index_freshness.py",
+      "result": "FRESHNESS_OK docs/index.html matches atomics build directives=166 stacks=25 prompt_packs=20 sources=62 common_tasks=5 schema_version=2026-05-17.audit3 generator_hash=1f60c64ee008f4ab"
+    },
+    {
+      "command": "python tools/check_docs_index_offline.py",
+      "result": "OFFLINE_CHECK_OK docs/index.html"
+    },
+    {
+      "command": "python tools/check_docs_index_browser_static.py",
+      "result": "BROWSER_STATIC_CHECK_OK directives=166 stacks=25 prompt_packs=20 sources=62 common_tasks=5 mode=static-dom"
+    },
+    {
+      "command": "python tools/check_docs_index_browser_live.py",
+      "result": "BROWSER_LIVE_CHECK_OK checks=29 tab_steps=14 unique_focus_targets=14 clipboard=checked keyboard=checked print=checked protocol=file mode=chrome-cdp-local"
+    },
+    {
+      "command": "python tools/check_docs_index_accessibility_static.py",
+      "result": "ACCESSIBILITY_STATIC_CHECK_OK semantic_controls=checked labels=checked focusability=checked keyboard_hooks=checked no_keyboard_trap=static-only no_js_fallback=checked mode=static-only"
+    },
+    {
+      "command": "python tools/check_source_freshness.py",
+      "result": "SOURCE_FRESHNESS_OK sources=62 stable=37 volatile=22 candidate=3 policy_days={'stable': 730, 'volatile': 180, 'candidate': 120}"
+    },
+    {
+      "command": "python tools/check_behavior_smokes.py",
+      "result": "BEHAVIOR_SMOKES_OK fixtures=6 conditions=5 patch_implied=checked evidence_level=fixture-only model_runs_executed=false"
+    },
+    {
+      "command": "python tools/check_directive_quality.py",
+      "result": "DIRECTIVE_QUALITY_OK records=211 patched_high_impact=15 statuses={'keep': 75, 'strengthen': 134, 'merge': 2}"
+    },
+    {
+      "command": "python tools/check_publication_gate.py",
+      "result": "PUBLICATION_GATE_PARTIAL checked=5 not_run=4 mode=local-gate"
+    },
+    {
+      "command": "python tools/check_audit_evidence_links.py",
+      "result": "AUDIT_EVIDENCE_LINKS_OK files=15 mode=repo-relative"
+    },
+    {
+      "command": "Get-ChildItem tools -Filter *.py | ForEach-Object { python -m py_compile $_.FullName }",
+      "result": "pass"
+    },
+    {
+      "command": "git diff --check",
+      "result": "pass; CRLF conversion warnings only"
+    }
+  ],
+  "files_changed_groups": {
+    "atomics": [
+      "atomics/adhlbs.schema.json",
+      "atomics/directives.json",
+      "atomics/prompt_packs.json",
+      "atomics/sections.json",
+      "atomics/stacks.json"
+    ],
+    "tools": [
+      "tools/build_docs_index.py",
+      "tools/check_adhlbs_atomics.py",
+      "tools/check_docs_index_freshness.py",
+      "tools/check_behavior_smokes.py",
+      "tools/check_audit_evidence_links.py",
+      "tools/check_docs_index_browser_static.py",
+      "tools/check_docs_index_browser_live.py",
+      "tools/check_docs_index_accessibility_static.py",
+      "tools/check_source_freshness.py",
+      "tools/check_directive_quality.py",
+      "tools/check_publication_gate.py"
+    ],
+    "docs": [
+      "docs/index.html",
+      "docs/audits/adhlbs-release-candidate-2026-05-17.md",
+      "docs/audits/adhlbs-release-candidate-2026-05-17.json",
+      "docs/audits/adhlbs-publication-gate-2026-05-17.md",
+      "docs/audits/adhlbs-findings-second-pass-2026-05-17.md"
+    ],
+    "workflow": [
+      ".github/workflows/verify.yml"
+    ],
+    "tests": [
+      "tests/behavior/adhlbs_behavior_smokes.json"
+    ]
+  },
+  "remaining_backlog_ids": [
+    "CORE-KISS",
+    "CORE-YAGNI",
+    "CORE-SRP",
+    "CORE-SOC",
+    "CORE-IH",
+    "CORE-OCP",
+    "CORE-LOD",
+    "CORE-LOP",
+    "CORE-SLAP",
+    "ARCH-INTERFACE-CONTRACT",
+    "ARCH-OWNER-FIRST",
+    "ARCH-CC",
+    "ARCH-DDD-BC",
+    "ARCH-SOLID",
+    "ARCH-GRASP",
+    "ARCH-PORTS-AMP-ADAPTERS",
+    "ARCH-CQRS",
+    "ARCH-CONWAY-CHECK",
+    "ARCH-ADR",
+    "ARCH-API-FIRST",
+    "ARCH-BFF",
+    "STATE-ACID",
+    "STATE-BASE",
+    "STATE-CAP",
+    "STATE-ATOMICS",
+    "STATE-ATOMIC-PATCH",
+    "STATE-INVARIANTS",
+    "STATE-OUTBOX-PATTERN",
+    "STATE-FIFO",
+    "STATE-RTO-RPO",
+    "STATE-PACELC",
+    "COMP-CANONICALIZATION",
+    "COMP-IR",
+    "COMP-AST",
+    "COMP-CFG",
+    "COMP-SSA",
+    "COMP-PARSE-DON-T-VALIDATE",
+    "COMP-SCHEMA-GATE",
+    "COMP-LOWERING",
+    "COMP-NORMAL-FORM",
+    "COMP-PHASE-SEPARATION",
+    "WEB-HTML-FIRST",
+    "WEB-WCAG",
+    "WEB-POUR",
+    "WEB-A11Y",
+    "WEB-I18N-L10N",
+    "WEB-RTL-BIDI",
+    "WEB-PE",
+    "WEB-RWD",
+    "WEB-MOBILE-FIRST",
+    "WEB-ARIA-LAST",
+    "WEB-FEATURE-DETECTION",
+    "WEB-CONTENT-FIRST",
+    "TEST-TDD",
+    "TEST-BDD",
+    "TEST-UNIT-TEST",
+    "TEST-INTEGRATION-TEST",
+    "TEST-E2E",
+    "TEST-PBT",
+    "TEST-MT",
+    "TEST-MUTATION-TESTING",
+    "TEST-GOLDEN-MASTER",
+    "TEST-GOLDEN-EVAL-SET",
+    "TEST-CHARACTERIZATION-TEST",
+    "TEST-CONTRACT-TEST",
+    "TEST-SMOKE-TEST",
+    "AGENT-PLAN-PERSIST",
+    "AGENT-BUDGETED-SEARCH",
+    "AGENT-PARALLEL-CONTEXT",
+    "AGENT-TOOL-PREAMBLE",
+    "AGENT-TOOL-POLICY",
+    "AGENT-READ-ONLY-FIRST",
+    "AGENT-CONTEXT-BUDGET",
+    "AGENT-PROGRESSIVE-DISCLOSURE",
+    "AGENT-STRUCTURED-OUTPUT",
+    "AGENT-QUOTE-FIRST-GROUNDING",
+    "AGENT-EVAL-HARNESS",
+    "AGENT-AI-RMF",
+    "AGENT-TRIGGER-EVALS",
+    "AGENT-DIFF-FIRST",
+    "AGENT-PLAN-CLOSURE",
+    "SEC-DID",
+    "SEC-TRUST-BOUNDARY",
+    "SEC-NO-SECRETS-IN-PROMPTS",
+    "SEC-STRIDE",
+    "SEC-DREAD",
+    "SEC-CONFUSED-DEPUTY-CHECK",
+    "SEC-SECRET-EGRESS-FILTER",
+    "SEC-SUPPLY-CHAIN-GATE",
+    "SEC-ZTA",
+    "SEC-RBAC-ABAC",
+    "SEC-CSP-CORS-CSRF",
+    "REL-BACKPRESSURE",
+    "REL-CIRCUIT-BREAKER",
+    "REL-BULKHEAD",
+    "REL-TIMEOUTS",
+    "REL-RETRY-JITTER",
+    "REL-DLQ",
+    "REL-OTEL",
+    "REL-TRACE-CONTEXT",
+    "REL-SLI-SLO-ERROR-BUDGET",
+    "REL-MTTR-MTBF",
+    "REL-12FA",
+    "REL-ROLLBACK",
+    "REL-RUNBOOK",
+    "REL-POSTMORTEM",
+    "REL-GRACEFUL-DEGRADATION",
+    "LEAN-KAIZEN",
+    "LEAN-JIDOKA",
+    "LEAN-GENCHI-GENBUTSU",
+    "LEAN-GEMBA",
+    "LEAN-POKA-YOKE",
+    "LEAN-MUDA-MURA-MURI",
+    "LEAN-HANSEI",
+    "LEAN-NEMAWASHI",
+    "LEAN-PDCA",
+    "LEAN-5-WHYS",
+    "LEAN-HOSHIN-KANRI",
+    "FOUND-SKILL-ENGINEERING",
+    "FOUND-SKILL-TRUST-TIERS",
+    "FOUND-ACG",
+    "FOUND-REACT",
+    "FOUND-REFLECT-REPAIR",
+    "FOUND-PLANNER-EXECUTOR",
+    "FOUND-VERIFIER-ROLE",
+    "FOUND-MEMORY-HYGIENE",
+    "FOUND-TOOL-USE-TAXONOMY",
+    "FOUND-PROMPTWARE-ENGINEERING",
+    "FOUND-MCP-BOUNDARY",
+    "FOUND-CONTEXT-ENGINEERING",
+    "FOUND-RAG-GROUNDING",
+    "FOUND-EVALS-FIRST",
+    "FOUND-SKILL-LIFECYCLE",
+    "DESIGN-CUPID",
+    "PACK-LEGACY",
+    "PACK-LEGACY-V2"
+  ],
+  "owner_decisions_required": [
+    "Choose license terms or intentionally keep all-rights-reserved.",
+    "Authorize branch push/PR/release workflow.",
+    "Decide whether directive remediation backlog is pre-release or post-release."
+  ],
+  "recommended_commit_message": "Harden ADHLBS audit checks and release evidence",
+  "recommended_release_title": "ADHLBS audit hardening: provenance, checks, behavior fixtures",
+  "draft_release_notes": [
+    "Add generated artifact build manifest and stricter freshness validation.",
+    "Harden atomic validation for IDs, references, sidecars, prompt-pack variant quality, stack gates, source metadata, and duplicate IDs.",
+    "Add static UI parity, local Chrome/CDP browser smoke, static accessibility smoke, source freshness, behavior fixture, directive quality, publication gate, and audit-link hygiene checks.",
+    "Add generated common-task launcher, agent-specific repo prompt-pack variants, and prompt-guidance-is-not-enforcement surface.",
+    "Add release-candidate ledger that separates local proof from fixture-only, static-only, local-only, owner-decision, and public proof gaps."
+  ],
+  "owner_run_commands_not_executed": [
+    "git status --short",
+    "git diff --stat",
+    "git diff --check",
+    "git switch -c audit-hardening-release-candidate",
+    "git add AGENTS.md CHANGELOG.md .github/workflows/verify.yml atomics tools tests docs",
+    "git commit -m \"Harden ADHLBS audit checks and release evidence\"",
+    "git push -u origin audit-hardening-release-candidate"
+  ],
+  "higher_risk_direct_main_push_not_executed": [
+    "git add AGENTS.md CHANGELOG.md .github/workflows/verify.yml atomics tools tests docs",
+    "git commit -m \"Harden ADHLBS audit checks and release evidence\"",
+    "git push origin main"
+  ],
+  "post_push_post_deploy_verification_checklist": [
+    "Confirm GitHub Actions verify workflow passes for the pushed commit.",
+    "Open the GitHub Pages URL after deployment.",
+    "Fetch live HTML and compare its adhlbs-build-manifest to docs/index.html.",
+    "Run live search/filter/copy/source smoke against the Pages URL.",
+    "Record live URL, commit SHA, CI run URL, and manifest comparison in a release note or follow-up ledger."
+  ]
+}

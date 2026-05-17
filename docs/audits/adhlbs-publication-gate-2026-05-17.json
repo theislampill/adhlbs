@@ -1,0 +1,46 @@
+{
+  "gate_id": "ADHLBS-PUBLICATION-GATE-2026-05-17",
+  "evidence_level": "local-gate-only",
+  "pushed": false,
+  "tagged": false,
+  "deployed": false,
+  "released": false,
+  "items": [
+    {
+      "id": "commit-hash-or-source-marker",
+      "gate": "Commit hash embedded or source-content marker justified",
+      "status": "PARTIAL",
+      "evidence": "docs/index.html manifest uses deterministic-source-content with source_hash and fallback_dirty_tree_marker because no post-push commit hash was embedded in this local correction pass.",
+      "next_action": "After an authorized commit, rebuild or record the committed artifact hash and verify the manifest against that commit."
+    },
+    {
+      "id": "actions-pass-after-push",
+      "gate": "GitHub Actions pass after push",
+      "status": "NOT RUN",
+      "evidence": "No push was performed in this pass; local workflow-equivalent commands were run only.",
+      "next_action": "After authorized push, inspect the GitHub Actions run for the pushed commit and record the passing run URL."
+    },
+    {
+      "id": "live-pages-url-checked",
+      "gate": "Live Pages URL checked",
+      "status": "NOT RUN",
+      "evidence": "No deploy or live Pages verification was performed in this pass.",
+      "next_action": "Open the GitHub Pages URL after deployment and record status, timestamp, and observed artifact identity."
+    },
+    {
+      "id": "live-html-manifest-matches-repo",
+      "gate": "Live HTML manifest matches repo artifact",
+      "status": "NOT RUN",
+      "evidence": "No live HTML was fetched or compared against docs/index.html.",
+      "next_action": "Fetch the live Pages HTML, parse adhlbs-build-manifest, and compare it to the repository artifact manifest."
+    },
+    {
+      "id": "live-source-copy-surfaces-match-generated",
+      "gate": "Live source/copy surfaces match generated artifact",
+      "status": "NOT RUN",
+      "evidence": "No live source table or copy surfaces were compared to the generated local artifact.",
+      "next_action": "Run a live Pages browser smoke that checks source URLs are inert and copy surfaces match the generated local HTML."
+    }
+  ],
+  "summary": "Public provenance remains partial/not-run because this pass did not commit, push, tag, deploy, publish a release, or check the live Pages artifact."
+}

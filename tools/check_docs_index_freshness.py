@@ -7,7 +7,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from build_docs_index import ROOT, DOCS_INDEX, render_html, validate_generated_html
+from build_docs_index import ROOT, DOCS_INDEX, build_manifest, extract_manifest, render_html, validate_generated_html
 from check_adhlbs_atomics import load_atomics, validate_atomics
 
 
@@ -35,8 +35,25 @@ def main() -> int:
         print("Regenerate with: python tools/build_docs_index.py", file=sys.stderr)
         print(f"Fresh temp output: {temp_path}", file=sys.stderr)
         return 1
+    manifest = extract_manifest(current)
+    expected_manifest = build_manifest(data)
+    if manifest != expected_manifest:
+        print("DOCS_INDEX_MANIFEST_STALE", file=sys.stderr)
+        print("Regenerate with: python tools/build_docs_index.py", file=sys.stderr)
+        print(f"Fresh temp output: {temp_path}", file=sys.stderr)
+        return 1
     temp_path.unlink(missing_ok=True)
-    print("FRESHNESS_OK docs/index.html matches atomics build")
+    counts = expected_manifest["counts"]
+    print(
+        "FRESHNESS_OK docs/index.html matches atomics build "
+        f"directives={counts['directives']} "
+        f"stacks={counts['stacks']} "
+        f"prompt_packs={counts['prompt_packs']} "
+        f"sources={counts['sources']} "
+        f"common_tasks={counts['common_tasks']} "
+        f"schema_version={expected_manifest['schema_version']} "
+        f"generator_hash={expected_manifest['generator_hash'][:16]}"
+    )
     return 0
 
 

@@ -189,7 +189,7 @@
       "stack": "CONTEXT → TOOLS → STATE → LOGS → VALIDATION → LIMITS",
       "use": "Designing the runtime wrapper around an agent, not only the prompt.",
       "avoid": "Treating model quality as the only control surface.",
-      "stop": "Stop when context, tools, state, logs, validation, and limits are explicit.",
+      "stop": "Stop when context, tools, state, logs, validation, limits, approval threshold, and capability allowlist are explicit.",
       "recommended": false
     },
     {

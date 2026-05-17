@@ -320,9 +320,9 @@ Follow-up evidence:
 ## Verification Results
 
 - `python tools/check_adhlbs_atomics.py`: `ATOMICS_OK directives=152 stacks=25 prompt_packs=20 sources=48`
-- `python tools/build_docs_index.py`: `BUILD_OK directives=152 stacks=25 prompt_packs=20 sources=48 output=C:\adhlbs\docs\index.html`
+- `python tools/build_docs_index.py`: `BUILD_OK directives=152 stacks=25 prompt_packs=20 sources=48 output=docs/index.html`
 - `python tools/check_docs_index_freshness.py`: `FRESHNESS_OK docs/index.html matches atomics build`
-- `python tools/check_docs_index_offline.py`: `OFFLINE_CHECK_OK C:\adhlbs\docs\index.html`
+- `python tools/check_docs_index_offline.py`: `OFFLINE_CHECK_OK docs/index.html`
 - `python -m py_compile tools/build_docs_index.py tools/check_adhlbs_atomics.py tools/check_docs_index_freshness.py tools/check_docs_index_offline.py`: passed with exit code 0.
 - `git diff --check`: passed with exit code 0.
 - Browser smoke via temporary `http://127.0.0.1:8765/`: title loaded; 152 cards, 25 stacks, 20 packs, 48 sources; compact mode toggled; search for `Mobile First` returned 1 card; reset returned all records; Security filter returned 18 cards; DRY copy button wrote derived text to clipboard; active remote assets and external anchors were 0.

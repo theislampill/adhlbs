@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import html
+import hashlib
+import json
 import os
 import sys
 from pathlib import Path
@@ -26,6 +28,22 @@ from check_docs_index_offline import check_html_offline_safe
 ROOT = Path(__file__).resolve().parents[1]
 DOCS_INDEX = ROOT / "docs" / "index.html"
 TMP_INDEX = ROOT / "docs" / "index.html.tmp"
+MANIFEST_ID = "adhlbs-build-manifest"
+GENERATOR_VERSION = "2026-05-17.audit2"
+MANIFEST_SOURCE_PATHS = [
+    "atomics/adhlbs.schema.json",
+    "atomics/directives.json",
+    "atomics/prompt_packs.json",
+    "atomics/sections.json",
+    "atomics/sources.json",
+    "atomics/stacks.json",
+    "atomics/ui_copy.json",
+]
+GENERATOR_PATHS = [
+    "tools/build_docs_index.py",
+    "tools/check_adhlbs_atomics.py",
+    "tools/check_docs_index_offline.py",
+]
 
 RISK_RANK = {"Low": 1, "Medium": 2, "High": 3, "Critical": 4}
 RISK_CLASS = {"Low": "risk-low", "Medium": "risk-medium", "High": "risk-high", "Critical": "risk-critical"}
@@ -41,6 +59,92 @@ def text(value: object) -> str:
 
 def nl2br(value: object) -> str:
     return "<br/>".join(text(value).splitlines())
+
+
+def sha256_bytes(payload: bytes) -> str:
+    return hashlib.sha256(payload).hexdigest()
+
+
+def sha256_file(path: Path) -> str:
+    return sha256_bytes(path.read_bytes())
+
+
+def combined_hash(paths: list[str]) -> str:
+    digest = hashlib.sha256()
+    for relative in paths:
+        path = ROOT / relative
+        digest.update(relative.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(path.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
+def source_tree_state(source_hash: str) -> dict[str, str]:
+    return {
+        "mode": "deterministic-source-content",
+        "source_commit": "not-embedded-precommit-safe",
+        "fallback_dirty_tree_marker": source_hash[:16],
+    }
+
+
+def build_manifest(data: dict[str, object]) -> dict[str, object]:
+    sections = data["sections"]
+    ui_copy = data["ui_copy"]
+    source_hash = combined_hash(MANIFEST_SOURCE_PATHS)
+    generator_hash = combined_hash(GENERATOR_PATHS)
+    source_files = {path: sha256_file(ROOT / path) for path in MANIFEST_SOURCE_PATHS}
+    generator_files = {path: sha256_file(ROOT / path) for path in GENERATOR_PATHS}
+    return {
+        "manifest_version": 1,
+        "build_marker": "deterministic-no-wallclock",
+        "schema_version": data["schema"].get("version", ""),
+        "generator_version": GENERATOR_VERSION,
+        "generator_hash": generator_hash,
+        "source_tree": source_tree_state(source_hash),
+        "source_hash": source_hash,
+        "source_files": source_files,
+        "generator_files": generator_files,
+        "counts": {
+            "directives": len(data["directives"]),
+            "stacks": len(data["stacks"]),
+            "prompt_packs": len(data["prompt_packs"]),
+            "sources": len(data["sources"]),
+            "sections": len(sections),
+            "section_heads": len(sections.get("section_heads", {})),
+            "categories": len(sections.get("categories", [])),
+            "defense_controls": len(sections.get("defense_controls", [])),
+            "common_tasks": len(sections.get("common_tasks", [])),
+            "ui_copy_blocks": len(ui_copy),
+            "ui_copy_style_bytes": len(str(ui_copy.get("style", "")).encode("utf-8")),
+            "ui_copy_script_bytes": len(str(ui_copy.get("script", "")).encode("utf-8")),
+        },
+    }
+
+
+def render_manifest(data: dict[str, object]) -> str:
+    payload = json.dumps(build_manifest(data), sort_keys=True, separators=(",", ":"))
+    return f'<script id="{MANIFEST_ID}" type="application/json">{text(payload)}</script>\n'
+
+
+def extract_manifest(html_text: str) -> dict[str, object] | None:
+    start_token = f'<script id="{MANIFEST_ID}" type="application/json">'
+    end_token = "</script>"
+    start = html_text.find(start_token)
+    if start == -1:
+        return None
+    start += len(start_token)
+    end = html_text.find(end_token, start)
+    if end == -1:
+        return None
+    payload = html.unescape(html_text[start:end])
+    try:
+        parsed = json.loads(payload)
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(parsed, dict):
+        return None
+    return parsed
 
 
 def category_class(sections: dict[str, object], kind: str) -> str:
@@ -64,6 +168,34 @@ def render_quick_rail(items: list[dict[str, object]]) -> str:
             "</div>"
         )
     chunks.append("</div>")
+    return "".join(chunks)
+
+
+def render_common_tasks(data: dict[str, object]) -> str:
+    sections = data["sections"]
+    head = sections["section_heads"]["common_tasks"]
+    chunks = [
+        '<div class="section-divider"></div><section class="section" id="common-tasks">',
+        f'<div class="section-head"><h2>{text(head["title"])}</h2><p>{text(head["description"])}</p></div>',
+        '<div class="quick-rail">',
+    ]
+    for item in sections.get("common_tasks", []):
+        refs = " ".join(f"[{ref}]" for ref in item.get("source_refs", []))
+        chunks.append(
+            f'<article class="quick-card" data-common-task-id="{e(item["id"])}" '
+            f'data-search="{e(search_text(item))}">'
+            f"<b>{text(item['title'])}</b>"
+            f"<p>{text(item['use'])}</p>"
+            f"<code>{text(item['prompt'])}</code>"
+            f'<p class="related"><b>Before:</b> {text(item.get("before_example", ""))}</p>'
+            f'<p class="related"><b>After:</b> {text(item.get("after_example", ""))}</p>'
+            f'<p class="related"><b>Placeholder policy:</b> {text(item.get("placeholder_policy", ""))}</p>'
+            f'<p class="related source-refs">Sources: {text(refs)}</p>'
+            f'<button aria-label="Copy common task: {e(item["title"])}" class="copy micro" '
+            f'data-copy="{e(item["prompt"])}" type="button">Copy</button>'
+            "</article>"
+        )
+    chunks.append("</div></section>")
     return "".join(chunks)
 
 
@@ -140,12 +272,34 @@ def render_stack_section(data: dict[str, object]) -> str:
 def render_defense_section(data: dict[str, object]) -> str:
     sections = data["sections"]
     head = sections["section_heads"]["defense"]
+    boundary = sections.get("enforcement_boundary", {})
     chunks = [
         '<div class="section-divider"></div><section class="section" id="defense">',
         f'<div class="section-head"><h2>{text(head["title"])}</h2><p>{text(head["description"])}</p></div>',
         f'<div class="defense-note">{text(sections.get("defense_note", ""))}</div>',
-        '<div class="defense-v7">',
     ]
+    if boundary:
+        refs = " ".join(f"[{ref}]" for ref in boundary.get("source_refs", []))
+        chunks.append(
+            '<div class="panel light" id="prompt-guidance-not-enforcement">'
+            f'<h2>{text(boundary["title"])}</h2>'
+            f'<p>{text(boundary["summary"])}</p>'
+            '<table class="mini-table"><thead><tr><th>Surface</th><th>Boundary</th><th>Enforced by</th><th>Fails if</th></tr></thead><tbody>'
+        )
+        for record in boundary.get("controls", []):
+            chunks.append(
+                f'<tr data-boundary-topic="{e(record["topic"])}">'
+                f'<td><b>{text(record["label"])}</b></td>'
+                f'<td>{text(record["boundary"])}</td>'
+                f'<td>{text(record["enforced_by"])}</td>'
+                f'<td>{text(record["fails_if"])}</td></tr>'
+            )
+        chunks.append(
+            "</tbody></table>"
+            f'<p class="related source-refs">Sources: {text(refs)}</p>'
+            "</div>"
+        )
+    chunks.append('<div class="defense-v7">')
     for record in sections.get("defense_controls", []):
         deterministic = "yes" if "Yes" in record.get("badge", "") else "warn"
         chunks.append(
@@ -303,6 +457,24 @@ def render_packs_section(data: dict[str, object]) -> str:
                 f"<details{open_attr}><summary>{text(variant['label'])}</summary>"
                 f"<pre>{text(variant['body'])}</pre></details>"
             )
+        if record.get("agent_variants"):
+            chunks.append(
+                f'<div class="agent-variants" data-agent-variants-for="{e(record["id"])}">'
+                "<h4>Agent-specific variants</h4>"
+            )
+            for variant in record.get("agent_variants", []):
+                body = (
+                    f"{variant['body']}\n\n"
+                    f"Repo instructions: {variant['repo_instruction_file_usage']}\n"
+                    f"Tool boundaries: {variant['approval_sandbox_tool_boundaries']}\n"
+                    f"Verification/reporting: {variant['verification_reporting_style']}\n"
+                    f"Release gate: {variant['no_push_no_release_gate']}"
+                )
+                chunks.append(
+                    f'<details class="agent-variant" data-agent-variant="{e(variant["label"])}">'
+                    f'<summary>{text(variant["label"])}</summary><pre>{text(body)}</pre></details>'
+                )
+            chunks.append("</div>")
         chunks.append(
             f'<button aria-label="Copy pack for {e(record["id"])}" class="copy" data-copy="{e(pack_copy(record))}" type="button">Copy pack</button>'
             "</article>"
@@ -360,6 +532,7 @@ def render_html(data: dict[str, object]) -> str:
         f'<meta content="{text(site["csp"])}" http-equiv="Content-Security-Policy"/>\n',
         f"<title>{text(site['title'])}</title>\n",
         f"<style>\n{style}\n</style>\n",
+        render_manifest(data),
         f'<meta content="{e(site["version_meta"])}" name="agent-directives-version"/></head>\n',
         '<body><a class="skip-link" href="#main">Skip to content</a>\n',
         '<header class="wrap">\n',
@@ -384,6 +557,7 @@ def render_html(data: dict[str, object]) -> str:
             '<span aria-live="polite" class="result-summary" id="resultSummary">Ready</span></div>\n',
             "<nav>\n",
             f'<a href="#stacks">Default Stacks<span class="toc-count">({len(data["stacks"])})</span></a>',
+            f'<a href="#common-tasks">Common Tasks<span class="toc-count">({len(sections.get("common_tasks", []))})</span></a>',
             '<a href="#defense">Defense in Depth</a>',
             f'<a href="#cards">Directive Cards<span class="toc-count">({len(data["directives"])})</span></a>',
             '<a href="#skills">Claude + Hermes Skills</a>',
@@ -391,6 +565,7 @@ def render_html(data: dict[str, object]) -> str:
             f'<a href="#sources">Sources<span class="toc-count">({len(data["sources"])})</span></a>',
             "\n</nav>",
             render_quick_rail(sections.get("quick_rail", [])),
+            render_common_tasks(data),
             render_stack_section(data),
             render_defense_section(data),
             render_cards_section(data),
@@ -424,11 +599,35 @@ def validate_generated_html(html_text: str, data: dict[str, object]) -> list[str
     errors: list[str] = []
     if GENERATED_BANNER not in html_text:
         errors.append("generated banner missing")
-    for sid in ["stacks", "defense", "cards", "skills", "packs", "sources"]:
+    manifest = extract_manifest(html_text)
+    if manifest is None:
+        errors.append("build manifest missing or malformed")
+    else:
+        expected_manifest = build_manifest(data)
+        if manifest != expected_manifest:
+            errors.append("build manifest does not match current atomics/generator state")
+        expected_counts = expected_manifest["counts"]
+        for key in ["directives", "stacks", "prompt_packs", "sources", "sections", "common_tasks", "ui_copy_blocks"]:
+            if manifest.get("counts", {}).get(key) != expected_counts[key]:
+                errors.append(f"build manifest count mismatch for {key}")
+    for sid in ["common-tasks", "stacks", "defense", "cards", "skills", "packs", "sources"]:
         if f'id="{sid}"' not in html_text:
             errors.append(f"expected section #{sid} missing")
+    if 'id="prompt-guidance-not-enforcement"' not in html_text:
+        errors.append("prompt guidance is not enforcement surface missing")
+    for topic in [
+        "prompt-guidance",
+        "permissions-sandboxing",
+        "deterministic-validation",
+        "human-approval",
+        "network-boundaries",
+        "untrusted-data",
+    ]:
+        if f'data-boundary-topic="{topic}"' not in html_text:
+            errors.append(f"enforcement boundary topic {topic} missing from generated html")
     expected_counts = {
         "Default Stacks": len(data["stacks"]),
+        "Common Tasks": len(data["sections"].get("common_tasks", [])),
         "Directive Cards": len(data["directives"]),
         "Prompt Packs": len(data["prompt_packs"]),
         "Sources": len(data["sources"]),
@@ -454,6 +653,25 @@ def validate_generated_html(html_text: str, data: dict[str, object]) -> list[str
             errors.append(f"prompt pack {record['id']} missing from generated html")
         if e(pack_copy(record)) not in html_text:
             errors.append(f"prompt pack {record['id']} derived copy missing")
+        for variant in record.get("agent_variants", []):
+            if f'data-agent-variant="{e(variant["label"])}"' not in html_text:
+                errors.append(f"prompt pack {record['id']} agent variant {variant['label']} missing")
+            for field in [
+                "repo_instruction_file_usage",
+                "approval_sandbox_tool_boundaries",
+                "verification_reporting_style",
+                "no_push_no_release_gate",
+            ]:
+                if e(variant[field]) not in html_text:
+                    errors.append(f"prompt pack {record['id']} agent variant {variant['label']} missing {field}")
+    for record in data["sections"].get("common_tasks", []):
+        if f'data-common-task-id="{e(record["id"])}"' not in html_text:
+            errors.append(f"common task {record['id']} missing from generated html")
+        if e(record["prompt"]) not in html_text:
+            errors.append(f"common task {record['id']} copy prompt missing")
+        for field in ["before_example", "after_example", "placeholder_policy"]:
+            if e(record.get(field, "")) not in html_text:
+                errors.append(f"common task {record['id']} {field} missing from generated html")
     for record in data["sources"]:
         if f'data-source-id="{e(record["id"])}"' not in html_text:
             errors.append(f"source {record['id']} missing from generated html")

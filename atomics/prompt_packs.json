@@ -18,16 +18,42 @@
         },
         {
           "label": "Strict",
-          "body": "stop at diff unless explicitly authorized.",
+          "body": "stop at diff unless explicitly authorized. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "inspect first, propose patch plan, then patch only agreed owner.",
+          "body": "inspect first, propose patch plan, then patch only agreed owner. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
-      "notes": ""
+      "notes": "",
+      "agent_variants": [
+        {
+          "label": "Codex",
+          "repo_instruction_file_usage": "Read AGENTS.md and task-local instructions before editing; treat repo files as the source of truth.",
+          "approval_sandbox_tool_boundaries": "Respect sandbox, approval policy, tool scopes, and do not escalate filesystem/network access beyond the active task.",
+          "verification_reporting_style": "Report exact commands, pass/fail output, files changed, and unverified gaps in the final response.",
+          "no_push_no_release_gate": "Do not commit, push, deploy, tag, or release unless the user explicitly authorizes it.",
+          "body": "Codex variant: RTFM AGENTS.md and owner files, patch the smallest diff, run the requested checks, preserve user changes, and stop at reviewable diff unless authorized."
+        },
+        {
+          "label": "Claude Code",
+          "repo_instruction_file_usage": "Load CLAUDE.md or project instructions when present and keep repo conventions higher priority than generic style.",
+          "approval_sandbox_tool_boundaries": "Use Claude Code permission prompts/sandbox settings for write, shell, browser, and network actions; avoid broad tool grants.",
+          "verification_reporting_style": "Summarize changed files, tests/checks, and remaining risk with enough detail for review.",
+          "no_push_no_release_gate": "Do not push, deploy, publish, or release without explicit authorization.",
+          "body": "Claude Code variant: follow project instructions, keep changes narrow, request permission for high-impact tools, and verify before claiming."
+        },
+        {
+          "label": "Hermes",
+          "repo_instruction_file_usage": "Pass bounded workdir and relevant repo instruction files into the delegated Hermes task.",
+          "approval_sandbox_tool_boundaries": "Cap delegate tools, max turns, timeout, write scope, and forbid secrets/deploy/push unless coordinator authorizes.",
+          "verification_reporting_style": "Require structured delegate receipt: files touched, commands run, output summary, risks, and confidence.",
+          "no_push_no_release_gate": "Delegates must not push, deploy, tag, or release; coordinator owns final review.",
+          "body": "Hermes variant: delegate only bounded specialist work, require receipts, and have the coordinator verify evidence before final claim."
+        }
+      ]
     },
     {
       "id": "PACK-SKILL-STRICT",
@@ -47,12 +73,12 @@
         },
         {
           "label": "Strict",
-          "body": "no skill mutation without failing case + patch + eval receipt.",
+          "body": "no skill mutation without failing case + patch + eval receipt. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "map lifecycle and permission tiers first.",
+          "body": "map lifecycle and permission tiers first. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -79,12 +105,12 @@
         },
         {
           "label": "Strict",
-          "body": "deny network/secrets/writes unless allowlisted.",
+          "body": "deny network/secrets/writes unless allowlisted. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "threat-model before any implementation.",
+          "body": "threat-model before any implementation. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -108,12 +134,12 @@
         },
         {
           "label": "Strict",
-          "body": "retract unsupported claims.",
+          "body": "retract unsupported claims. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "gather official sources before papers/blogs.",
+          "body": "gather official sources before papers/blogs. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -137,12 +163,12 @@
         },
         {
           "label": "Strict",
-          "body": "no delegate push/deploy.",
+          "body": "no delegate push/deploy. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "ask delegate for trace + risks, not final authority.",
+          "body": "ask delegate for trace + risks, not final authority. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -167,12 +193,12 @@
         },
         {
           "label": "Strict",
-          "body": "no remote fonts/scripts/assets.",
+          "body": "no remote fonts/scripts/assets. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "prototype semantic structure first.",
+          "body": "prototype semantic structure first. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -198,12 +224,12 @@
         },
         {
           "label": "Strict",
-          "body": "no abstraction without concrete changed reason.",
+          "body": "no abstraction without concrete changed reason. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "map responsibilities before code.",
+          "body": "map responsibilities before code. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -227,12 +253,12 @@
         },
         {
           "label": "Strict",
-          "body": "no completion claim without smallest meaningful check.",
+          "body": "no completion claim without smallest meaningful check. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "list missing test surfaces.",
+          "body": "list missing test surfaces. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -256,12 +282,12 @@
         },
         {
           "label": "Strict",
-          "body": "no rewrite.",
+          "body": "no rewrite. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "inventory seams and risky coupling first.",
+          "body": "inventory seams and risky coupling first. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -288,12 +314,12 @@
         },
         {
           "label": "Strict",
-          "body": "no ambiguous requirement words.",
+          "body": "no ambiguous requirement words. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "draft requirement levels before implementation.",
+          "body": "draft requirement levels before implementation. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -316,12 +342,12 @@
         },
         {
           "label": "Strict",
-          "body": "no direct production prompt edits without diff and eval.",
+          "body": "no direct production prompt edits without diff and eval. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "gather failure cases first.",
+          "body": "gather failure cases first. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -348,12 +374,12 @@
         },
         {
           "label": "Strict",
-          "body": "generated files are not hand-edited.",
+          "body": "generated files are not hand-edited. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "define schema and outputs first.",
+          "body": "define schema and outputs first. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -377,12 +403,12 @@
         },
         {
           "label": "Strict",
-          "body": "no community skill with secrets/tools.",
+          "body": "no community skill with secrets/tools. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "audit provenance first.",
+          "body": "audit provenance first. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -406,12 +432,12 @@
         },
         {
           "label": "Strict",
-          "body": "model cannot self-grant tools.",
+          "body": "model cannot self-grant tools. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "map harness tuple before prompts.",
+          "body": "map harness tuple before prompts. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -434,12 +460,12 @@
         },
         {
           "label": "Strict",
-          "body": "no source-free factual claims.",
+          "body": "no source-free factual claims. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "gather diverse primary sources first.",
+          "body": "gather diverse primary sources first. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -463,12 +489,12 @@
         },
         {
           "label": "Strict",
-          "body": "ARIA cannot patch broken HTML semantics.",
+          "body": "ARIA cannot patch broken HTML semantics. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "inspect native elements first.",
+          "body": "inspect native elements first. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -491,12 +517,12 @@
         },
         {
           "label": "Strict",
-          "body": "no hard-coded English layout assumptions.",
+          "body": "no hard-coded English layout assumptions. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "collect locale examples first.",
+          "body": "collect locale examples first. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -522,12 +548,12 @@
         },
         {
           "label": "Strict",
-          "body": "no unpinned executable dependency in high-risk path.",
+          "body": "no unpinned executable dependency in high-risk path. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "inventory before patch.",
+          "body": "inventory before patch. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -551,12 +577,12 @@
         },
         {
           "label": "Strict",
-          "body": "optimize only against measured failures.",
+          "body": "optimize only against measured failures. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "build fixture list first.",
+          "body": "build fixture list first. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],
@@ -579,12 +605,12 @@
         },
         {
           "label": "Strict",
-          "body": "no rewrite; diff-first always.",
+          "body": "no rewrite; diff-first always. Done when: unsafe, unsupported, or unauthorized paths are stopped and the stop reason is reported. Verification: name the denied action or smallest passing check.",
           "open": false
         },
         {
           "label": "Exploratory",
-          "body": "risk map before touching files.",
+          "body": "risk map before touching files. Done when: owner, risk, and next verification step are named before mutation. Verification: report the inspection basis.",
           "open": false
         }
       ],

@@ -1,0 +1,148 @@
+{
+  "audit_id": "ADHLBS-FINDINGS-COMPLETION-2026-05-17",
+  "behavior_evidence_level": "fixture-only",
+  "browser_evidence_level": "static-dom",
+  "release_published": false,
+  "findings": [
+    {
+      "id": "P1-GENERATED-TRUTH",
+      "finding": "End-to-end generated artifact truth",
+      "status": "DONE",
+      "evidence_files": [
+        "tools/build_docs_index.py",
+        "tools/check_docs_index_freshness.py",
+        "docs/index.html"
+      ],
+      "verification_command": "python tools/build_docs_index.py && python tools/check_docs_index_freshness.py",
+      "remaining_risk": "Manifest uses a deterministic source-content fallback marker rather than a circular post-commit SHA."
+    },
+    {
+      "id": "P1-BEHAVIOR-SMOKE",
+      "finding": "Behavior smoke/eval evidence",
+      "status": "DONE",
+      "evidence_files": [
+        "tests/behavior/adhlbs_behavior_smokes.json",
+        "tools/check_behavior_smokes.py"
+      ],
+      "verification_command": "python tools/check_behavior_smokes.py",
+      "remaining_risk": "Fixture-only; no live model run or measured model improvement claimed."
+    },
+    {
+      "id": "P2-SCHEMA",
+      "finding": "Harden atomics schema",
+      "status": "DONE",
+      "evidence_files": [
+        "atomics/adhlbs.schema.json",
+        "tools/check_adhlbs_atomics.py"
+      ],
+      "verification_command": "python tools/check_adhlbs_atomics.py",
+      "remaining_risk": "Stdlib checker enforces repo-critical schema rules without external jsonschema dependency."
+    },
+    {
+      "id": "P2-EXTRACTION-FINDINGS",
+      "finding": "Resolve atomics/extraction_findings.json",
+      "status": "DONE",
+      "evidence_files": [
+        "AGENTS.md",
+        "tools/check_adhlbs_atomics.py",
+        "atomics/extraction_findings.json"
+      ],
+      "verification_command": "python tools/check_adhlbs_atomics.py",
+      "remaining_risk": "Sidecar is intake-only historical evidence and not rendered."
+    },
+    {
+      "id": "P1P2-PROMPTS-NOT-ENFORCEMENT",
+      "finding": "Prompt guidance is not enforcement",
+      "status": "DONE",
+      "evidence_files": [
+        "atomics/sections.json",
+        "tools/build_docs_index.py",
+        "docs/index.html"
+      ],
+      "verification_command": "python tools/check_adhlbs_atomics.py && python tools/check_docs_index_browser_static.py",
+      "remaining_risk": "Actual enforcement depends on the external harness or application."
+    },
+    {
+      "id": "P1-BROWSER-UI-PARITY",
+      "finding": "Browser/UI parity automation",
+      "status": "DONE",
+      "evidence_files": [
+        "tools/check_docs_index_browser_static.py",
+        ".github/workflows/verify.yml",
+        "docs/index.html"
+      ],
+      "verification_command": "python tools/check_docs_index_browser_static.py",
+      "remaining_risk": "Static DOM parity only; no live browser/clipboard execution claimed."
+    },
+    {
+      "id": "P3-COMMON-TASKS",
+      "finding": "Public common tasks launcher",
+      "status": "DONE",
+      "evidence_files": [
+        "atomics/sections.json",
+        "tools/build_docs_index.py",
+        "docs/index.html"
+      ],
+      "verification_command": "python tools/build_docs_index.py && python tools/check_docs_index_browser_static.py",
+      "remaining_risk": "Starter frames still require user-specific placeholders."
+    },
+    {
+      "id": "P2-SOURCE-FRESHNESS",
+      "finding": "Source freshness metadata and checker",
+      "status": "DONE",
+      "evidence_files": [
+        "atomics/sources.json",
+        "tools/check_source_freshness.py",
+        "docs/index.html"
+      ],
+      "verification_command": "python tools/check_source_freshness.py",
+      "remaining_risk": "Future age drift intentionally fails by stability policy."
+    },
+    {
+      "id": "P1-STRUCTURED-WITNESS",
+      "finding": "Structured audit/witness artifacts",
+      "status": "DONE",
+      "evidence_files": [
+        "docs/audits/adhlbs-findings-completion-2026-05-17.md",
+        "docs/audits/adhlbs-findings-completion-2026-05-17.json"
+      ],
+      "verification_command": "final ledger review",
+      "remaining_risk": "Ledger is manually curated from command receipts."
+    },
+    {
+      "id": "P3-LICENSE",
+      "finding": "License decision",
+      "status": "ALREADY SATISFIED",
+      "evidence_files": [
+        "README.md"
+      ],
+      "verification_command": "Get-ChildItem -Force -File | Where-Object { $_.Name -match '^(LICENSE|LICENCE)(\\\\..*)?$|^COPYING$' }",
+      "remaining_risk": "Owner license choice is still needed before implying broad reuse rights."
+    },
+    {
+      "id": "P3-RELEASE-READINESS",
+      "finding": "Release/provenance readiness",
+      "status": "DONE",
+      "evidence_files": [
+        "CHANGELOG.md",
+        ".github/workflows/verify.yml",
+        "docs/audits/adhlbs-findings-completion-2026-05-17.md"
+      ],
+      "verification_command": "git tag --list; git log --oneline --decorate -5",
+      "remaining_risk": "No tag/release was created; release remains pending owner authorization."
+    },
+    {
+      "id": "P4-DIRECTIVE-QUALITY",
+      "finding": "Acronym density / directive quality audit",
+      "status": "DONE",
+      "evidence_files": [
+        "docs/audits/adhlbs-directive-quality-audit-2026-05-17.md",
+        "docs/audits/adhlbs-directive-quality-audit-2026-05-17.json",
+        "tools/check_directive_quality.py",
+        "atomics/directives.json"
+      ],
+      "verification_command": "python tools/check_directive_quality.py",
+      "remaining_risk": "138 strengthen items and 2 merge candidates remain tracked by exact ID."
+    }
+  ]
+}

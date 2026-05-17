@@ -1,13 +1,17 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://theislampill.github.io/adhlbs/atomics/adhlbs.schema.json",
   "title": "ADHLBS Atomics Bundle",
+  "version": "2026-05-17.audit3",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "directives",
     "stacks",
     "prompt_packs",
     "sources",
-    "sections"
+    "sections",
+    "ui_copy"
   ],
   "properties": {
     "directives": {
@@ -36,13 +40,107 @@
     },
     "sections": {
       "type": "object"
+    },
+    "ui_copy": {
+      "$ref": "#/$defs/ui_copy"
     }
   },
   "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9]*(?:-[A-Z0-9]+)*$"
+    },
+    "html_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "text_array": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/text"
+      }
+    },
+    "risk": {
+      "enum": [
+        "Low",
+        "Medium",
+        "High",
+        "Critical"
+      ]
+    },
+    "stability": {
+      "enum": [
+        "stable",
+        "volatile",
+        "candidate"
+      ]
+    },
+    "source_type": {
+      "enum": [
+        "Agent research",
+        "AI governance",
+        "API design",
+        "Architecture",
+        "Classic SE",
+        "Classic SE paper",
+        "Design patterns",
+        "Hermes docs",
+        "IETF draft",
+        "IETF RFC",
+        "Knowledge management",
+        "Lean / Toyota",
+        "LLM security",
+        "Observability",
+        "Official AI docs",
+        "Reliability",
+        "Security",
+        "Security / candidate",
+        "State / data",
+        "Supply chain security",
+        "Testing",
+        "Versioning",
+        "Web architecture",
+        "Web docs",
+        "Web standard"
+      ]
+    },
+    "source_class": {
+      "enum": [
+        "Agent",
+        "Agent research",
+        "API design",
+        "Architecture",
+        "Architecture model",
+        "Classic SE",
+        "CMU SEI",
+        "Compiler",
+        "Data/state",
+        "Government guidance",
+        "IETF draft",
+        "Lean",
+        "NIST",
+        "Official spec",
+        "OpenTelemetry",
+        "OWASP",
+        "OWASP LLM",
+        "Reliability",
+        "Security",
+        "Source",
+        "Verification",
+        "W3C / OTel",
+        "Web standard"
+      ]
+    },
     "directive": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "id",
+        "html_id",
         "kind",
         "name",
         "expansion",
@@ -51,16 +149,84 @@
         "use",
         "blocks",
         "tags",
+        "aliases",
         "source_class",
         "related",
         "negative_example",
         "source_refs"
-      ]
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "html_id": {
+          "$ref": "#/$defs/html_id"
+        },
+        "kind": {
+          "$ref": "#/$defs/text"
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "expansion": {
+          "type": "string"
+        },
+        "why": {
+          "$ref": "#/$defs/text"
+        },
+        "directive": {
+          "$ref": "#/$defs/text"
+        },
+        "use": {
+          "$ref": "#/$defs/text"
+        },
+        "blocks": {
+          "$ref": "#/$defs/text"
+        },
+        "tags": {
+          "$ref": "#/$defs/text_array"
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_class": {
+          "$ref": "#/$defs/source_class"
+        },
+        "recognition": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "related": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "negative_example": {
+          "$ref": "#/$defs/text"
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      }
     },
     "stack": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "id",
+        "html_id",
         "name",
         "risk",
         "tag",
@@ -68,21 +234,266 @@
         "use",
         "avoid",
         "stop"
-      ]
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "html_id": {
+          "$ref": "#/$defs/html_id"
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "risk": {
+          "$ref": "#/$defs/risk"
+        },
+        "tag": {
+          "enum": [
+            "agent",
+            "code",
+            "data",
+            "release",
+            "research",
+            "security",
+            "web"
+          ]
+        },
+        "stack": {
+          "$ref": "#/$defs/text"
+        },
+        "use": {
+          "$ref": "#/$defs/text"
+        },
+        "avoid": {
+          "$ref": "#/$defs/text"
+        },
+        "stop": {
+          "$ref": "#/$defs/text"
+        },
+        "recommended": {
+          "type": "boolean"
+        }
+      }
     },
     "prompt_pack": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "id",
+        "html_id",
         "title",
         "tag",
         "risk",
         "variants",
         "source_refs"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "html_id": {
+          "$ref": "#/$defs/html_id"
+        },
+        "title": {
+          "$ref": "#/$defs/text"
+        },
+        "tag": {
+          "$ref": "#/$defs/text"
+        },
+        "risk": {
+          "$ref": "#/$defs/risk"
+        },
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "variants": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/normal_variant"
+            },
+            {
+              "$ref": "#/$defs/strict_variant"
+            },
+            {
+              "$ref": "#/$defs/exploratory_variant"
+            }
+          ]
+        },
+        "agent_variants": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/codex_agent_variant"
+            },
+            {
+              "$ref": "#/$defs/claude_code_agent_variant"
+            },
+            {
+              "$ref": "#/$defs/hermes_agent_variant"
+            }
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "codex_agent_variant": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/agent_variant"
+        },
+        {
+          "properties": {
+            "label": {
+              "const": "Codex"
+            }
+          }
+        }
       ]
+    },
+    "claude_code_agent_variant": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/agent_variant"
+        },
+        {
+          "properties": {
+            "label": {
+              "const": "Claude Code"
+            }
+          }
+        }
+      ]
+    },
+    "hermes_agent_variant": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/agent_variant"
+        },
+        {
+          "properties": {
+            "label": {
+              "const": "Hermes"
+            }
+          }
+        }
+      ]
+    },
+    "agent_variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "repo_instruction_file_usage",
+        "approval_sandbox_tool_boundaries",
+        "verification_reporting_style",
+        "no_push_no_release_gate",
+        "body"
+      ],
+      "properties": {
+        "label": {
+          "enum": [
+            "Codex",
+            "Claude Code",
+            "Hermes"
+          ]
+        },
+        "repo_instruction_file_usage": {
+          "$ref": "#/$defs/text"
+        },
+        "approval_sandbox_tool_boundaries": {
+          "$ref": "#/$defs/text"
+        },
+        "verification_reporting_style": {
+          "$ref": "#/$defs/text"
+        },
+        "no_push_no_release_gate": {
+          "$ref": "#/$defs/text"
+        },
+        "body": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "normal_variant": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/variant"
+        },
+        {
+          "properties": {
+            "label": {
+              "const": "Normal"
+            }
+          }
+        }
+      ]
+    },
+    "strict_variant": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/variant"
+        },
+        {
+          "properties": {
+            "label": {
+              "const": "Strict"
+            }
+          }
+        }
+      ]
+    },
+    "exploratory_variant": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/variant"
+        },
+        {
+          "properties": {
+            "label": {
+              "const": "Exploratory"
+            }
+          }
+        }
+      ]
+    },
+    "variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "body"
+      ],
+      "properties": {
+        "label": {
+          "enum": [
+            "Normal",
+            "Strict",
+            "Exploratory"
+          ]
+        },
+        "body": {
+          "$ref": "#/$defs/text"
+        },
+        "open": {
+          "type": "boolean"
+        }
+      }
     },
     "source": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "id",
         "title",
@@ -90,8 +501,58 @@
         "source_type",
         "stability",
         "notes",
-        "supports"
-      ]
+        "supports",
+        "last_checked",
+        "trust"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "title": {
+          "$ref": "#/$defs/text"
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https?://"
+        },
+        "source_type": {
+          "$ref": "#/$defs/source_type"
+        },
+        "stability": {
+          "$ref": "#/$defs/stability"
+        },
+        "notes": {
+          "$ref": "#/$defs/text"
+        },
+        "supports": {
+          "$ref": "#/$defs/text_array"
+        },
+        "last_checked": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "trust": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    "ui_copy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "style",
+        "script"
+      ],
+      "properties": {
+        "style": {
+          "$ref": "#/$defs/text"
+        },
+        "script": {
+          "$ref": "#/$defs/text"
+        }
+      }
     }
   }
 }

@@ -6,8 +6,8 @@
       "kind": "Core",
       "name": "DRY",
       "expansion": "Don't Repeat Yourself",
-      "why": "Duplicate truth drifts. the sheet treats the embedded data object as the repeatable content owner.",
-      "directive": "Execute DRY: one directive record owns name, expansion, why, anti-pattern, tags, and copy text; render cards, search, counts, and copy behavior from that source instead of duplicating content.",
+      "why": "Duplicate truth drifts. The sheet treats atomics as the repeatable content owner.",
+      "directive": "Execute DRY: one directive record owns name, expansion, why, anti-pattern, tags, source refs, and copy text; render cards, search, counts, and copy behavior from that source instead of duplicating content. Verify by rebuilding and running freshness.",
       "use": "Directive records, source rows, prompt-pack variants, generated docs.",
       "blocks": "Changing a directive in the card but forgetting the search text, pack, source note, or count.",
       "tags": [
@@ -25,8 +25,11 @@
         "AGENT-SMOKE-BEFORE-CLAIM",
         "AGENT-CITE-OR-RETRACT"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "editing docs/index.html card text while leaving atomics/directives.json, search text, source refs, and generated counts stale.",
+      "source_refs": [
+        "PRAGPROG-DRY",
+        "ATLASSIAN-SSOT"
+      ]
     },
     {
       "id": "CORE-KISS",
@@ -88,7 +91,7 @@
       "name": "SSOT",
       "expansion": "Single Source of Truth",
       "why": "The page now needs one canonical owner for each directive, source row, stack, pack, and note.",
-      "directive": "Execute SSOT: keep each concept mastered in one data record; all visible cards, filters, counts, copy text, and source support should derive from or point back to that record.",
+      "directive": "Execute SSOT: keep each concept mastered in one data record; all visible cards, filters, counts, copy text, and source support should derive from or point back to that record. Verify by tracing any visible claim to its owning atomic.",
       "use": "Data-driven static pages, skill docs, generated prompt sheets.",
       "blocks": "Multiple inconsistent versions of the same directive scattered across sections.",
       "tags": [
@@ -104,8 +107,11 @@
         "AGENT-SMOKE-BEFORE-CLAIM",
         "AGENT-CITE-OR-RETRACT"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "adding a prompt pack sentence that restates a card but has no owning atomic or source ref.",
+      "source_refs": [
+        "ATLASSIAN-SSOT",
+        "PRAGPROG-DRY"
+      ]
     },
     {
       "id": "CORE-SRP",
@@ -2085,7 +2091,7 @@
       "name": "RTFM",
       "expansion": "Read The Files / Manual",
       "why": "No guessing from memory when files, docs, logs, schemas, or tests exist.",
-      "directive": "RTFM: inspect the governing files and relevant docs before editing or claiming.",
+      "directive": "RTFM: inspect the governing files, schemas, generated outputs, and relevant docs before editing or claiming. Report the files read when the task depends on them.",
       "use": "Repos, docs, specs.",
       "blocks": "Memory-based hallucinated file contents.",
       "tags": [
@@ -2100,8 +2106,11 @@
         "AGENT-TRACE",
         "AGENT-SMOKE-BEFORE-CLAIM"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "patching a generated page from memory without reading AGENTS.md, atomics, generator, or checks.",
+      "source_refs": [
+        "OPENAI-CODEX",
+        "CLAUDE-CODE"
+      ]
     },
     {
       "id": "AGENT-TRACE",
@@ -2110,7 +2119,7 @@
       "name": "TRACE",
       "expansion": "Trace Before Change",
       "why": "Prevents vibe patches and false fixes.",
-      "directive": "TRACE BEFORE CHANGE: identify call path, data path, owner, and test surface before patching.",
+      "directive": "TRACE BEFORE CHANGE: identify call path, data path, owner, generated outputs, and test surface before patching. Verify the touched path with the smallest relevant check.",
       "use": "Bugfixes and audits.",
       "blocks": "Patching symptoms without tracing cause.",
       "tags": [
@@ -2125,8 +2134,11 @@
         "AGENT-RTFM",
         "AGENT-SMOKE-BEFORE-CLAIM"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "changing a checker message without tracing whether CI, generator validation, and freshness checks depend on it.",
+      "source_refs": [
+        "OPENAI-CODEX",
+        "OPENAI-PROMPT"
+      ]
     },
     {
       "id": "AGENT-DEFINE-DONE",
@@ -2135,9 +2147,9 @@
       "name": "Define Done",
       "expansion": "Acceptance criteria first",
       "why": "Completion should be objective.",
-      "directive": "Define done: list success criteria before acting; do not claim completion until each is passed or marked unverified.",
-      "use": "Autonomous tasks.",
-      "blocks": "Open-ended completion claims.",
+      "directive": "Define done before acting: enumerate success criteria, evidence type, required commands, owner files, and statuses; claim completion only when each criterion passes or is explicitly marked unverified/blocked.",
+      "use": "Autonomous repo tasks, audits, prompt generation, release readiness, and multi-step correction work.",
+      "blocks": "Open-ended completion claims and status inflation from fixture-only, static-only, or local-only evidence.",
       "tags": [
         "acceptance",
         "agent"
@@ -2149,10 +2161,15 @@
       "related": [
         "AGENT-RTFM",
         "AGENT-TRACE",
-        "AGENT-SMOKE-BEFORE-CLAIM"
+        "AGENT-SMOKE-BEFORE-CLAIM",
+        "AGENT-FAIL-LOUD"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "calling behavior improvement measured when only comparison fixtures exist and model_runs_executed is false.",
+      "source_refs": [
+        "OPENAI-CODEX",
+        "OPENAI-PROMPT",
+        "PROMPTWARE-2503"
+      ]
     },
     {
       "id": "AGENT-PLAN-PERSIST",
@@ -2421,7 +2438,7 @@
       "name": "Cite or Retract",
       "expansion": "No unsupported claims",
       "why": "Hard anti-hallucination rule.",
-      "directive": "CITE OR RETRACT: every factual claim needs a source, file path, log, test, or explicit inference label.",
+      "directive": "CITE OR RETRACT: every factual claim needs a source, file path, log, test, generated artifact, or explicit inference label. Retract or mark unsupported claims before final output.",
       "use": "Factual answers.",
       "blocks": "Unsupported confident claims.",
       "tags": [
@@ -2437,8 +2454,11 @@
         "AGENT-TRACE",
         "AGENT-SMOKE-BEFORE-CLAIM"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "claiming browser parity, release readiness, or source freshness without a command result or file-grounded receipt.",
+      "source_refs": [
+        "OPENAI-CODEX",
+        "OPENAI-PROMPT"
+      ]
     },
     {
       "id": "AGENT-EVAL-HARNESS",
@@ -2534,8 +2554,8 @@
       "name": "Smoke Before Claim",
       "expansion": "Verify the smallest useful thing",
       "why": "Prevents plausible but untested completions.",
-      "directive": "SMOKE BEFORE CLAIM: run the smallest meaningful test/check and report command plus result.",
-      "use": "Repo work.",
+      "directive": "SMOKE BEFORE CLAIM: run the smallest meaningful test/check and report command plus result. If a live check cannot run, label the evidence type and remaining risk.",
+      "use": "Repo work, generated artifacts, browser/static checks, behavior fixtures.",
       "blocks": "Claiming completion without running anything.",
       "tags": [
         "verification",
@@ -2549,8 +2569,11 @@
         "AGENT-RTFM",
         "AGENT-TRACE"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "saying a generated artifact is fresh because the page looks right, without running the build/freshness/offline checks.",
+      "source_refs": [
+        "OPENAI-CODEX",
+        "AGENT-EVAL-2503"
+      ]
     },
     {
       "id": "AGENT-DIFF-FIRST",
@@ -2611,9 +2634,9 @@
       "name": "Fail Loud",
       "expansion": "Precise blocker reporting",
       "why": "No silent failure or fake completion.",
-      "directive": "FAIL LOUD: report exact blocker, exact output, what is unverified, and the next concrete command.",
-      "use": "All tool work.",
-      "blocks": "Vague apologies or fake success.",
+      "directive": "FAIL LOUD: report the exact blocker, command/output, unverified claim, owner file, and next concrete action before continuing or claiming completion.",
+      "use": "All tool work, especially CI, browser, model-eval, deploy, release, and security-sensitive workflows.",
+      "blocks": "Vague apologies, swallowed failures, or fake success after partial/static/local-only evidence.",
       "tags": [
         "agent",
         "ops"
@@ -2623,12 +2646,15 @@
       "recognition": "",
       "metadata": [],
       "related": [
-        "AGENT-RTFM",
-        "AGENT-TRACE",
-        "AGENT-SMOKE-BEFORE-CLAIM"
+        "AGENT-SMOKE-BEFORE-CLAIM",
+        "AGENT-CITE-OR-RETRACT",
+        "LEAN-ANDON"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "reporting browser parity done after only a static DOM scan, without saying clipboard, keyboard, print, or live site checks were not run.",
+      "source_refs": [
+        "OPENAI-CODEX",
+        "OPENAI-PROMPT"
+      ]
     },
     {
       "id": "AGENT-PROMISE-DISCIPLINE",
@@ -2637,9 +2663,9 @@
       "name": "Promise Discipline",
       "expansion": "No imaginary background work",
       "why": "Agents should not promise future delivery unless scheduling actually exists.",
-      "directive": "Do the work now, schedule with a real tool, or state the blocker; never imply background execution that is not happening.",
-      "use": "Chat agents.",
-      "blocks": "I'll get back to you later.",
+      "directive": "Do the work now, schedule it with a real automation, or state the blocker; never imply background execution, publication, live verification, or release mutation that did not happen.",
+      "use": "Chat agents, release gates, follow-ups, monitoring claims, and public provenance checks.",
+      "blocks": "False background work, implied deploys, and promises that cannot be verified from tools or automation records.",
       "tags": [
         "agent",
         "truthfulness"
@@ -2649,12 +2675,15 @@
       "recognition": "",
       "metadata": [],
       "related": [
-        "AGENT-RTFM",
-        "AGENT-TRACE",
+        "AGENT-DEFINE-DONE",
+        "AGENT-FAIL-LOUD",
         "AGENT-SMOKE-BEFORE-CLAIM"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "saying the Pages site was checked or a release is ready after no commit, push, tag, deploy, or live URL verification occurred.",
+      "source_refs": [
+        "OPENAI-CODEX",
+        "OPENAI-PROMPT"
+      ]
     },
     {
       "id": "SEC-DID",
@@ -2721,7 +2750,7 @@
       "name": "Least Privilege",
       "expansion": "Minimum capability",
       "why": "Reduces blast radius of model or tool compromise.",
-      "directive": "Grant only the tools, scopes, secrets, paths, and permissions required for the task.",
+      "directive": "Grant only the tools, scopes, secrets, paths, network hosts, and permissions required for the task; deny or ask when the requested capability is outside that manifest.",
       "use": "Tools and agents.",
       "blocks": "Broad filesystem/network/write access by default.",
       "tags": [
@@ -2738,8 +2767,12 @@
         "SEC-TRUST-BOUNDARY",
         "SEC-FAIL-CLOSED"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "letting an agent with a repo-edit task browse arbitrary hosts, read secrets, and write outside the workspace by default.",
+      "source_refs": [
+        "OWASP-AGENCY",
+        "OWASP-LLM",
+        "NIST-AI-RMF"
+      ]
     },
     {
       "id": "SEC-FAIL-CLOSED",
@@ -2748,9 +2781,9 @@
       "name": "Fail Closed",
       "expansion": "Stop on invalid state",
       "why": "Safer than continuing through ambiguity.",
-      "directive": "Fail closed on invalid, ambiguous, unauthorized, or policy-conflicting state.",
-      "use": "Auth, tools, high-risk tasks.",
-      "blocks": "Proceeding when checks fail.",
+      "directive": "Fail closed on invalid, ambiguous, unauthorized, stale, or policy-conflicting state; stop or downgrade status until a deterministic gate, approval, or owner decision resolves it.",
+      "use": "Auth, tools, generated artifacts, release gates, high-risk tasks, and source/license ambiguity.",
+      "blocks": "Proceeding when checks fail, approval is absent, ownership is unknown, or public provenance has not been verified.",
       "tags": [
         "security",
         "safety"
@@ -2763,10 +2796,15 @@
       ],
       "related": [
         "SEC-TRUST-BOUNDARY",
-        "SEC-LEAST-PRIVILEGE"
+        "SEC-LEAST-PRIVILEGE",
+        "SEC-APP-LAYER-GATE",
+        "SEC-APPROVAL-THRESHOLD"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "treating missing license selection as already satisfied because the README contains a note, instead of blocking on owner decision.",
+      "source_refs": [
+        "OWASP-AGENCY",
+        "OWASP-LLM"
+      ]
     },
     {
       "id": "SEC-NO-SECRETS-IN-PROMPTS",
@@ -2803,7 +2841,7 @@
       "name": "App-Layer Gate",
       "expansion": "Code enforces boundaries",
       "why": "Security should not depend on the attacked model policing itself.",
-      "directive": "Enforce security boundaries in deterministic application code: policy checks, allowlists, filters, and output gates.",
+      "directive": "Enforce security boundaries in deterministic application code: policy checks, allowlists, schemas, filters, output gates, and approval gates. Prompts may guide, but code decides.",
       "use": "LLM tools and RAG.",
       "blocks": "Model self-policing as the only defense.",
       "tags": [
@@ -2821,8 +2859,12 @@
         "SEC-LEAST-PRIVILEGE",
         "SEC-FAIL-CLOSED"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "telling the model not to exfiltrate secrets while leaving tool permissions, output filters, and network egress unrestricted.",
+      "source_refs": [
+        "OWASP-LLM",
+        "OWASP-AGENCY",
+        "NCSC-PROMPT-INJECTION"
+      ]
     },
     {
       "id": "SEC-OUTPUT-FILTER",
@@ -2831,9 +2873,9 @@
       "name": "Output Filter",
       "expansion": "Check before delivery/action",
       "why": "Critical for secrets, PII, tool traces, unsafe links, and exfiltration.",
-      "directive": "Run output through deterministic filters for secrets/PII/policy before returning or acting on it.",
-      "use": "Agents with external data.",
-      "blocks": "Returning sensitive tool traces.",
+      "directive": "Run output through deterministic filters for secrets, PII, unsafe links, policy violations, and unsupported claims before returning, publishing, forwarding, or tool handoff.",
+      "use": "Agents handling external data, source tables, generated prompts, browser output, logs, or publication surfaces.",
+      "blocks": "Returning sensitive tool traces, executable unsafe links, or unverified public/release claims.",
       "tags": [
         "security",
         "egress"
@@ -2847,10 +2889,14 @@
       "related": [
         "SEC-TRUST-BOUNDARY",
         "SEC-LEAST-PRIVILEGE",
-        "SEC-FAIL-CLOSED"
+        "SEC-FAIL-CLOSED",
+        "AGENT-CITE-OR-RETRACT"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "copying tool output into a release note with secrets, active external links, or live-site claims that were not checked.",
+      "source_refs": [
+        "OWASP-LLM",
+        "OWASP-LLM01"
+      ]
     },
     {
       "id": "SEC-CAPABILITY-ALLOWLIST",
@@ -3006,9 +3052,9 @@
       "name": "Prompt-Injection Drill",
       "expansion": "Adversarial retrieved-content test",
       "why": "Security should be tested against malicious instructions in data.",
-      "directive": "Add at least one malicious retrieved-content case that tries to override instructions, exfiltrate secrets, or misuse tools.",
-      "use": "LLM app security.",
-      "blocks": "No adversarial tests.",
+      "directive": "Add a prompt-injection drill with retrieved content that tries to override instructions, exfiltrate secrets, or misuse tools; verify the trusted instruction/data boundary still holds.",
+      "use": "LLM app security, RAG, browsing, email, upload, and tool-output workflows.",
+      "blocks": "Shipping without adversarial retrieved-content tests or treating prompt text as the only boundary.",
       "tags": [
         "prompt injection",
         "eval"
@@ -3022,12 +3068,14 @@
       "related": [
         "SEC-TRUST-BOUNDARY",
         "SEC-LEAST-PRIVILEGE",
-        "SEC-FAIL-CLOSED"
+        "SEC-FAIL-CLOSED",
+        "SEC-APP-LAYER-GATE"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
+      "negative_example": "marking injection handled because the system prompt says ignore malicious pages, without a fixture that attempts instruction override or tool misuse.",
       "source_refs": [
         "OWASP-LLM01",
-        "NCSC-PROMPT-INJECTION"
+        "NCSC-PROMPT-INJECTION",
+        "OWASP-LLM"
       ]
     },
     {
@@ -3824,9 +3872,9 @@
       "name": "Andon",
       "expansion": "Visible problem signal",
       "why": "A problem should be visible at the moment it needs help.",
-      "directive": "Use Andon: expose clear status, blocker, failing check, owner, and next action as soon as failure is detected.",
-      "use": "Tool-heavy agent tasks.",
-      "blocks": "Hidden failing work.",
+      "directive": "Use Andon: expose status, blocker, failing check, owner, and next concrete action immediately when work cannot honestly pass.",
+      "use": "Tool-heavy agent tasks, audits, migrations, generated artifacts, and release gates.",
+      "blocks": "Hidden failing work, vague progress claims, and converting an executable failure into prose-only success.",
       "tags": [
         "Toyota",
         "operations"
@@ -3838,10 +3886,14 @@
       "related": [
         "LEAN-GENCHI-GENBUTSU",
         "LEAN-POKA-YOKE",
-        "LEAN-PDCA"
+        "LEAN-PDCA",
+        "AGENT-FAIL-LOUD"
       ],
-      "negative_example": "applying the label while skipping the owner, evidence, or stop condition.",
-      "source_refs": []
+      "negative_example": "saying all findings are complete after a checker failed, instead of naming the failed command, owner file, and next action.",
+      "source_refs": [
+        "TOYOTA-TPS",
+        "LEAN-LEXICON"
+      ]
     },
     {
       "id": "LEAN-GENCHI-GENBUTSU",
